@@ -81,11 +81,11 @@ void clearChar(uint64_t x, uint64_t y){
 }
 
 uint64_t getWidth() {
-	return VBE_mode_info->width;
+	return (uint64_t)VBE_mode_info->width;
 }
 
 uint64_t getHeight() {
-	return VBE_mode_info->height;
+	return (uint64_t)VBE_mode_info->height;
 }
 
 void puts(const char* str, uint32_t hexacolor, uint64_t x, uint64_t y) {
@@ -95,6 +95,7 @@ void puts(const char* str, uint32_t hexacolor, uint64_t x, uint64_t y) {
 			x = 0;
 			verticalOffset += LINE_HEIGHT;
 		}else{
+			clearChar(x, verticalOffset);
 			putChar(*str++, hexacolor, x, verticalOffset);
 			x += LETTER_WIDTH; // siguiente caracter 
 		}

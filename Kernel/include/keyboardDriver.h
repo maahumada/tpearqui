@@ -4,7 +4,7 @@
 
 
 
-static uint16_t const spanish_keyboard_layout[][3] = {
+static uint8_t const spanish_keyboard_layout[][3] = {
     {1}, // Happy smile
     {0}, // Esc
     {'1', '!'},
