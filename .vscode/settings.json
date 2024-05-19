@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "videodriver.h": "c",
+    "fonts.h": "c",
+    "time.h": "c"
+  }
+}
