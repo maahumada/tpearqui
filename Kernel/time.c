@@ -28,8 +28,16 @@ static void num_to_str(uint64_t num, char* buffer){
 	*(buffer+1) = num % 10 + '0';
 }
 
+uint64_t getHoursUTC3(){
+	uint64_t aux = getHours();
+	if(aux < 3){ 
+		return 24 - 3;   
+	}
+	return aux - 3;
+}
+
 void get_current_time_string(char* buffer) {
-	num_to_str(getHours(), buffer);
+	num_to_str(getHoursUTC3(), buffer);
 	*(buffer+2) = ':';
 	num_to_str(getMinutes(), buffer+3);
 	*(buffer+5) = ':';
