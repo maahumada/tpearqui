@@ -87,6 +87,7 @@ int main()
 {	
 	load_idt();
 
+	ncPrint("kernel.c");
 	
 	ncPrint("[Kernel Main]");
 	ncNewline();
@@ -114,11 +115,11 @@ int main()
 
 	char time[10];
 
-	while(1){
-		get_current_time_string(time);
-		puts(time, 0xFF00FF, 0, 100);
-		//keyboard_handler();
-	};
+	// while(1){
+	// 	get_current_time_string(time);
+	// 	puts(time, 0xFF00FF, 0, 100);
+	// 	//keyboard_handler();
+	// };
 	
 	return 0;
 }

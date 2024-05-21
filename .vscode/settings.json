@@ -3,5 +3,6 @@
     "videodriver.h": "c",
     "fonts.h": "c",
     "time.h": "c"
-  }
+  },
+  "workbench.colorTheme": "Default Dark+"
 }

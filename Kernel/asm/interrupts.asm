@@ -13,6 +13,8 @@ GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
 
+GLOBAL _irq128Handler
+
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
@@ -137,6 +139,11 @@ _irq04Handler:
 ;USB
 _irq05Handler:
 	irqHandlerMaster 5
+
+;Syscalls
+_irq128Handler:
+	mov r9, rax ; para preservar rax que se rompe supuestamente
+	irqHandlerMaster 0x80
 
 
 ;Zero Division Exception
