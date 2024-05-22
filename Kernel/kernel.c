@@ -106,24 +106,15 @@ int main()
 
 	ncPrint("[Finished]");
 
-	char str[] = "Hola Mundo";
-	for(int i = 0; i<10; i++) {
-		putChar(str[i], 0xFF0000, 8*i, 8);
-	} 
-
-	char time[30];
-
-	// while(1){
-	// 	get_current_time_string(time);
-	// 	puts(time, 0xFF00FF, 0, 100);
-	// };
-
-	clear();
-	puts("Testeo loco");
-	print();
-	puts("JEJE\n");
-	print();
-	puts("GOD");
-	print();
+	puts("usuario@ArquiOS", 0x00FF00);
+	puts(":", 0xFFFFFF);
+	puts("/", 0x0000FF);
+	puts("$ ", 0xFFFFFF);
+	char time[20];
+	while(1){
+		get_current_time_string(time);
+		putsAtPos(time, 0xFF00FF, 128 * 47 + 105);
+		print();
+	};
 	return 0;
 }

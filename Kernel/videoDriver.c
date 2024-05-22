@@ -5,12 +5,6 @@
 #define LETTER_WIDTH 8
 #define LINE_HEIGHT 16
 
-#define LEFT_SHIFT  0x2A
-#define RIGHT_SHIFT 0x36
-#define ALT 0x38
-#define ENTER 0x1C
-#define BACKSPACE 0x0E
-
 typedef struct {
 	char letter;
 	uint32_t color;
@@ -106,20 +100,6 @@ uint64_t getHeight() {
 	return (uint64_t)VBE_mode_info->height;
 }
 
-/*void puts(const char* str, uint32_t hexacolor, uint64_t x, uint64_t y) {
-  uint64_t verticalOffset = y;
-	while (*str) {	
-		if(x >= getWidth()) {
-			x = 0;
-			verticalOffset += LINE_HEIGHT;
-		}else{
-			clearChar(x, verticalOffset);
-			putChar(*str++, hexacolor, x, verticalOffset);
-			x += LETTER_WIDTH; // siguiente caracter 
-		}
-  }
-}*/
-
 void clear(){
 	for(int x = 0; x < 1024; x++)
 		for(int y = 0; y < 768; y++)
@@ -131,7 +111,7 @@ void print(){
 	int y = 8;
 	for(int i = 0; i < BUFFER_SIZE; i++){
 		switch(screenBuffer[i].letter) {
-			case ENTER:			
+			case '\n':
 				x = 0;
 				y += LINE_HEIGHT;	
 				break;
@@ -148,9 +128,22 @@ void print(){
 	}
 }
 
-void puts(char* str, uint32_t color){
-	for(int i = 0; str[i] != 0; i++)
+void puts(const char* str, uint32_t hexacolor){
+	for(int i = 0; str[i] != 0; i++){
 		screenBuffer[bufferPosition].letter = str[i];
-		screenBuffer[bufferPosition].color = color;
+		screenBuffer[bufferPosition].color = hexacolor;
 		bufferPosition++;
+	}
+}
+
+void putsAtPos(const char* str, uint32_t hexacolor, uint64_t position){
+	for(int i = 0; str[i] != 0; i++){
+		screenBuffer[position+i].letter = str[i];
+		screenBuffer[position+i].color = hexacolor;
+	}
+}
+
+void remove(){
+	bufferPosition--;
+	screenBuffer[bufferPosition].letter = 0;
 }

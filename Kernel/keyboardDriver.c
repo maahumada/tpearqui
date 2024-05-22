@@ -55,53 +55,18 @@ void keyboard_handler(){
 		return;
 	} 
 
-	// PRINTEO DE X E Y DEBUG
-	char xString[10] = { 0 };
-	char yString[10] = { 0 };
-	puts("-------", 0xFFFFFF, 0, 300);
-	puts("-------", 0xFFFFFF, 0, 320);
-	numToStr(x, xString);
-	numToStr(y, yString);
-	puts("x: ", 0x0000FF, 0, 300);
-	puts(xString, 0x0000FF, 24, 300);
-	puts("y: ", 0x00FF00, 0, 320);
-	puts(yString, 0x00FF00, 24, 320);
-	
-	switch(aux) {
-		case LEFT_SHIFT:
-		case RIGHT_SHIFT:
-			keyMapRow = 1;
-			break;
-		case ALT:
-			keyMapRow = 2;
-			break;
-		case ENTER:			
-			x = 0;
-			y += LINE_HEIGHT;	
-			break;
+	char t[2];
+	t[1] = 0;
+	switch(aux){
 		case BACKSPACE:
-			if((int64_t)x - LETTER_WIDTH < 0){
-				x = LETTER_WIDTH * (getWidth() / LETTER_WIDTH) - LETTER_WIDTH;
-				y -= LINE_HEIGHT;
-			}else{
-				x -= LETTER_WIDTH;
-			}
-			clearChar(x, y);
+			remove();
+			return;
+		case ENTER:
+			t[0] = '\n';
 			break;
 		default:
-			currentChar = spanish_keyboard_layout[aux][keyMapRow];
-			clearChar(x, y);
-			putChar(currentChar, 0xFFFFFF, x, y);
-			updateCoords(&x, &y);
+			t[0] = spanish_keyboard_layout[aux][keyMapRow];
 			break;
-		}
-
-		puts("-------", 0xFFFFFF, 0, 340);
-		puts("-------", 0xFFFFFF, 0, 360);
-		numToStr(x, xString);
-		numToStr(y, yString);
-		puts("x: ", 0x0000FF, 0, 340);
-		puts(xString, 0x0000FF, 24, 340);
-		puts("y: ", 0x00FF00, 0, 360);
-		puts(yString, 0x00FF00, 24, 360);
+	}
+	puts(t, 0xFFFFFF);
 }
