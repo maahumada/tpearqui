@@ -86,7 +86,6 @@ void * initializeKernelBinary()
 int main()
 {	
 	load_idt();
-
 	
 	ncPrint("[Kernel Main]");
 	ncNewline();
@@ -108,17 +107,16 @@ int main()
 	ncPrint("[Finished]");
 
 	char str[] = "Hola Mundo";
-	for(int i = 0; i<10; i++) {
-		putChar(str[i], 0xFF0000, 8*i, 8);
-	} 
+	// for(int i = 0; i<10; i++) {
+	// 	putChar(str[i], 0xFF0000, 8*i, 8);
+	// } 
 
-	char time[10];
+	char time[30];
 
-	while(1){
-		get_current_time_string(time);
-		puts(time, 0xFF00FF, 0, 100);
-		//keyboard_handler();
-	};
-	
+	// while(1){
+	// 	get_current_time_string(time);
+	// 	puts(time, 0xFF00FF, 0, 100);
+	// 	//keyboard_handler();
+	// };
 	return 0;
 }

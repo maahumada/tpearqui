@@ -2,6 +2,10 @@
   "files.associations": {
     "videodriver.h": "c",
     "fonts.h": "c",
-    "time.h": "c"
+    "time.h": "c",
+    "clock.h": "c",
+    "syscall.h": "c",
+    "stdint.h": "c",
+    "naiveconsole.h": "c"
   }
 }

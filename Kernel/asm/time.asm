@@ -1,5 +1,5 @@
 section .text
-GLOBAL getHours, getMinutes, getSeconds
+GLOBAL getHours, getMinutes, getSeconds, getDay, getMonth, getYear
 
 config_rtc_output:
   mov al, 0x0B
@@ -15,6 +15,27 @@ get_time:
   out 70h, al
   in al, 71h
   movzx rax, al
+  ret
+
+getYear:
+  cli
+  mov rdi, 0x09
+  call get_time
+  sti
+  ret
+
+getMonth:
+  cli
+  mov rdi, 0x08
+  call get_time
+  sti
+  ret
+
+getDay:
+  cli
+  mov rdi, 0x07
+  call get_time
+  sti
   ret
 
 getHours:

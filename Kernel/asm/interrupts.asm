@@ -1,4 +1,3 @@
-
 GLOBAL _cli
 GLOBAL _sti
 GLOBAL picMasterMask
@@ -12,11 +11,13 @@ GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
+GLOBAL _irq128Handler
 
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN syscallDispatcher
 
 SECTION .text
 
@@ -66,6 +67,13 @@ SECTION .text
 	mov al, 20h
 	out 20h, al
 
+	popState
+	iretq
+%endmacro
+
+%macro irqHandlerMasterSysCalls 0
+	pushState
+	call syscallDispatcher
 	popState
 	iretq
 %endmacro
@@ -138,6 +146,13 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
+;Syscalls
+_irq128Handler:
+	;irqHandlerMasterSysCalls
+	pushState
+	call syscallDispatcher
+	popState
+	iretq
 
 ;Zero Division Exception
 _exception0Handler:

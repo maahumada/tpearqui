@@ -1,0 +1,4 @@
+GLOBAL write
+
+write:
+    ret 

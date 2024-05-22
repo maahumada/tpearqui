@@ -87,7 +87,6 @@ void keyboard_handler(){
 				x -= LETTER_WIDTH;
 			}
 			clearChar(x, y);
-			putChar('X', 0xFF0000, x, y);
 			break;
 		default:
 			currentChar = spanish_keyboard_layout[aux][keyMapRow];

@@ -1,19 +1,10 @@
 /* sampleCodeModule.c */
+#include <syscall.h>
+#include <stdint.h>
 
-char * v = (char*)0xB8000 + 79 * 2;
-
-static int var1 = 0;
-static int var2 = 0;
-
+extern void print(char* str, uint32_t hexacolor, uint64_t x, uint64_t y);
 
 int main() {
-	//All the following code may be removed 
-	*v = 'X';
-	*(v+1) = 0x74;
-
-	//Test if BSS is properly set up
-	if (var1 == 0 && var2 == 0)
-		return 0xDEADC0DE;
-
-	return 0xDEADBEEF;
+	print("FUNCA!", 0xFFAA66, 100, 100);
+	return 0;
 }
