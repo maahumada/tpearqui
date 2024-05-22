@@ -8,10 +8,10 @@ static void int_21();
 void irqDispatcher(uint64_t irq) {
 	switch (irq) {
 		case 0:
-			int_20();
+			int_20(); // Timer Tick
 			break;
 		case 1:
-			int_21();
+			int_21(); // Keyboard
 			break;
 	}
 	return;
