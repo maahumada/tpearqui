@@ -1,8 +1,26 @@
 #include <videoDriver.h>
 #include <fonts.h>
+#include <keyboardDriver.h>
 
 #define LETTER_WIDTH 8
-#define LINE_HEIGHT 12
+#define LINE_HEIGHT 16
+
+#define LEFT_SHIFT  0x2A
+#define RIGHT_SHIFT 0x36
+#define ALT 0x38
+#define ENTER 0x1C
+#define BACKSPACE 0x0E
+
+typedef struct {
+	char letter;
+	uint32_t color;
+} bufferItem;
+
+#define BUFFER_SIZE 6144
+	
+static bufferItem screenBuffer[BUFFER_SIZE];
+
+static int bufferPosition = 0;
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -88,7 +106,7 @@ uint64_t getHeight() {
 	return (uint64_t)VBE_mode_info->height;
 }
 
-void puts(const char* str, uint32_t hexacolor, uint64_t x, uint64_t y) {
+/*void puts(const char* str, uint32_t hexacolor, uint64_t x, uint64_t y) {
   uint64_t verticalOffset = y;
 	while (*str) {	
 		if(x >= getWidth()) {
@@ -100,4 +118,39 @@ void puts(const char* str, uint32_t hexacolor, uint64_t x, uint64_t y) {
 			x += LETTER_WIDTH; // siguiente caracter 
 		}
   }
+}*/
+
+void clear(){
+	for(int x = 0; x < 1024; x++)
+		for(int y = 0; y < 768; y++)
+			putPixel(0x000000, x, y);
+}
+
+void print(){
+	int x = 0;
+	int y = 8;
+	for(int i = 0; i < BUFFER_SIZE; i++){
+		switch(screenBuffer[i].letter) {
+			case ENTER:			
+				x = 0;
+				y += LINE_HEIGHT;	
+				break;
+			default:
+				clearChar(x, y);
+				putChar(screenBuffer[i].letter, screenBuffer[i].color, x, y);
+				x += LETTER_WIDTH;
+				if(x >= getWidth()){
+					x = 0;
+					y += LINE_HEIGHT;
+				}
+				break;
+		}
+	}
+}
+
+void puts(char* str, uint32_t color){
+	for(int i = 0; str[i] != 0; i++)
+		screenBuffer[bufferPosition].letter = str[i];
+		screenBuffer[bufferPosition].color = color;
+		bufferPosition++;
 }
