@@ -3,14 +3,13 @@
 #include <keyboardDriver.h>
 
 #define LETTER_WIDTH 8
-#define LINE_HEIGHT 16
 
 typedef struct {
 	char letter;
 	uint32_t color;
 } bufferItem;
 
-#define BUFFER_SIZE 6144
+#define BUFFER_SIZE 12288
 	
 static bufferItem screenBuffer[BUFFER_SIZE];
 
@@ -85,7 +84,7 @@ void putChar(uint8_t c, uint32_t hexacolor, uint64_t x, uint64_t y) {
 }
 
 void clearChar(uint64_t x, uint64_t y){
-	for (int row = 0; row < LINE_HEIGHT; row++) {
+	for (int row = 0; row < LETTER_WIDTH; row++) {
 		for(int col = 0; col < LETTER_WIDTH; col++){
      		putPixel(0x000000, x + col, y + row);
 		}
@@ -113,7 +112,7 @@ void print(){
 		switch(screenBuffer[i].letter) {
 			case '\n':
 				x = 0;
-				y += LINE_HEIGHT;	
+				y += LETTER_WIDTH;	
 				break;
 			default:
 				clearChar(x, y);
@@ -121,7 +120,7 @@ void print(){
 				x += LETTER_WIDTH;
 				if(x >= getWidth()){
 					x = 0;
-					y += LINE_HEIGHT;
+					y += LETTER_WIDTH;
 				}
 				break;
 		}

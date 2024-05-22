@@ -111,9 +111,13 @@ int main()
 	puts("/", 0x0000FF);
 	puts("$ ", 0xFFFFFF);
 	char time[20];
+	char t[2];
+	t[1] = 0;
+	t[0] = 0x80;
 	while(1){
+		puts(t, 0x0000FF);
 		get_current_time_string(time);
-		putsAtPos(time, 0xFF00FF, 128 * 47 + 105);
+		putsAtPos(time, 0xFF00FF, 128 * 47 * 2 + 105);
 		print();
 	};
 	return 0;
