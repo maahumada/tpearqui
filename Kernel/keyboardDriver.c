@@ -43,6 +43,9 @@ void numToStr(uint64_t num, char* buffer){
 	*(buffer+digits) = 0;
 }
 
+char stdInBuffer[1000] = {0};
+uint64_t stdInBufferPosition = 0;
+
 void keyboard_handler(){
   uint8_t aux = readKeyPol();
 	uint8_t currentChar;
@@ -53,20 +56,49 @@ void keyboard_handler(){
 			keyMapRow = 0;
 		}
 		return;
-	} 
-
-	char t[2];
-	t[1] = 0;
-	switch(aux){
-		case BACKSPACE:
-			remove();
-			return;
-		case ENTER:
-			t[0] = '\n';
-			break;
-		default:
-			t[0] = spanish_keyboard_layout[aux][keyMapRow];
-			break;
 	}
-	puts(t, 0xFFFFFF);
+
+	switch(aux){
+		case LEFT_SHIFT:
+		case RIGHT_SHIFT:
+			keyMapRow = 1;
+			return;
+		case ALT:
+			keyMapRow = 2;
+			return;
+	}
+
+
+	stdInBuffer[stdInBufferPosition++] = spanish_keyboard_layout[aux][keyMapRow]; 
+
+	//PRINT TO STDOUT
+	// char t[2];
+	// t[1] = 0;
+	// char c;
+	// switch(aux){
+	// 	case BACKSPACE:
+	// 		remove();
+	// 		return;
+	// 	case ENTER:
+	// 		c = '\n';
+	// 		break;
+	// 	default:
+	// 		c = spanish_keyboard_layout[aux][keyMapRow];
+	// 		break;
+	// }
+	// t[0] = c;
+	// puts(t, 0xFFFFFF);
 }
+
+uint64_t read(char* buffer, uint64_t count){
+	stdInBufferPosition = 0;
+	while(stdInBufferPosition == 0 || (stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count)){
+		keyboard_handler();
+	}
+	for(int i = 0; i < stdInBufferPosition; i++){
+	 	buffer[i] = stdInBuffer[i];
+	}
+	puts(buffer, 0xFFFFFF);
+	print();
+	return stdInBufferPosition;
+};

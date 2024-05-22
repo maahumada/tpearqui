@@ -1,4 +1,0 @@
-GLOBAL write
-
-write:
-    ret 

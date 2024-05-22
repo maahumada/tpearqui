@@ -2,7 +2,7 @@
 #define KEYBOARD_DRIVER_H
 #include <stdint.h>
 
-
+uint64_t read(char* buffer, uint64_t count);
 
 static uint8_t const spanish_keyboard_layout[][3] = {
     {1}, // Happy smile
