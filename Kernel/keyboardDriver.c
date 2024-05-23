@@ -43,8 +43,8 @@ void numToStr(uint64_t num, char* buffer){
 	*(buffer+digits) = 0;
 }
 
-char stdInBuffer[1000] = {0};
-uint64_t stdInBufferPosition = 0;
+static char stdInBuffer[1000];
+static uint64_t stdInBufferPosition;
 
 void keyboard_handler(){
   uint8_t aux = readKeyPol();
@@ -62,14 +62,14 @@ void keyboard_handler(){
 		case LEFT_SHIFT:
 		case RIGHT_SHIFT:
 			keyMapRow = 1;
-			return;
+			break;
 		case ALT:
 			keyMapRow = 2;
-			return;
+			break;
+		default:
+			stdInBuffer[stdInBufferPosition++] = spanish_keyboard_layout[aux][keyMapRow]; 
+			break;
 	}
-
-
-	stdInBuffer[stdInBufferPosition++] = spanish_keyboard_layout[aux][keyMapRow]; 
 
 	//PRINT TO STDOUT
 	// char t[2];
@@ -98,7 +98,10 @@ uint64_t read(char* buffer, uint64_t count){
 	for(int i = 0; i < stdInBufferPosition; i++){
 	 	buffer[i] = stdInBuffer[i];
 	}
-	puts(buffer, 0xFFFFFF);
+	puts("OUT OF FOR\n", 0xFF0000);
+	print();
+	buffer[stdInBufferPosition] = 0;
+	puts("RETURNING READ\n", 0xFF0000);
 	print();
 	return stdInBufferPosition;
 };

@@ -10,6 +10,8 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             break;
         case 0x02: // Read
             read(p0, p1);
+            puts("OUT OF READ\n", 0xFF0000);
+            print();
             break;
         case 0x04: // PrintScreen
             print();
