@@ -100,8 +100,6 @@ uint64_t read(char* buffer, uint64_t count){
 	for(int i = 0; i < stdInBufferPosition - 1; i++){
 	 	buffer[i] = stdInBuffer[i];
 	}
-	puts("\nTERMINANDO READ\n", 0xFF0000);
-	print();
 	buffer[stdInBufferPosition - 1] = 0;
 	return stdInBufferPosition;
 };

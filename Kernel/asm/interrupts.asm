@@ -148,11 +148,7 @@ _irq05Handler:
 
 ;Syscalls
 _irq128Handler:
-	;irqHandlerMasterSysCalls
-	pushState
-	call syscallDispatcher
-	popState
-	iretq
+	irqHandlerMasterSysCalls
 
 ;Zero Division Exception
 _exception0Handler:
