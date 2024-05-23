@@ -105,5 +105,8 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
+
+	puts("Finished execution.", 0xFF0000);
+	print();
 	return 0;
 }

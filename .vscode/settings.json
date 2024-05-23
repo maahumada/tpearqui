@@ -6,6 +6,7 @@
     "clock.h": "c",
     "syscall.h": "c",
     "stdint.h": "c",
-    "naiveconsole.h": "c"
+    "naiveconsole.h": "c",
+    "strings.h": "c"
   }
 }

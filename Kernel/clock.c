@@ -21,7 +21,7 @@ static void num_to_str(uint64_t num, char* buffer){
 	*(buffer+1) = num % 10 + '0';
 }
 
-uint64_t getHoursUTC3(){
+static uint64_t getHoursUTC3(){
 	uint64_t hour = getHours();
 	if(hour < TIMEZONE_OFFSET){ 
 		return (HOURS_IN_DAY - TIMEZONE_OFFSET) + hour;   

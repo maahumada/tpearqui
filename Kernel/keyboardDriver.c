@@ -72,22 +72,24 @@ void keyboard_handler(){
 	}
 
 	//PRINT TO STDOUT
-	// char t[2];
-	// t[1] = 0;
-	// char c;
-	// switch(aux){
-	// 	case BACKSPACE:
-	// 		remove();
-	// 		return;
-	// 	case ENTER:
-	// 		c = '\n';
-	// 		break;
-	// 	default:
-	// 		c = spanish_keyboard_layout[aux][keyMapRow];
-	// 		break;
-	// }
-	// t[0] = c;
-	// puts(t, 0xFFFFFF);
+	char t[2];
+	t[1] = 0;
+	char c;
+	switch(aux){
+		case BACKSPACE:
+			remove();
+			print();
+			return;
+		case ENTER:
+			c = '\n';
+			break;
+		default:
+			c = spanish_keyboard_layout[aux][keyMapRow];
+			break;
+	}
+	t[0] = c;
+	puts(t, 0xFFFFFF);
+	print();
 }
 
 uint64_t read(char* buffer, uint64_t count){
@@ -95,13 +97,11 @@ uint64_t read(char* buffer, uint64_t count){
 	while(stdInBufferPosition == 0 || (stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count)){
 		keyboard_handler();
 	}
-	for(int i = 0; i < stdInBufferPosition; i++){
+	for(int i = 0; i < stdInBufferPosition - 1; i++){
 	 	buffer[i] = stdInBuffer[i];
 	}
-	puts("OUT OF FOR\n", 0xFF0000);
+	puts("\nTERMINANDO READ\n", 0xFF0000);
 	print();
-	buffer[stdInBufferPosition] = 0;
-	puts("RETURNING READ\n", 0xFF0000);
-	print();
+	buffer[stdInBufferPosition - 1] = 0;
 	return stdInBufferPosition;
 };

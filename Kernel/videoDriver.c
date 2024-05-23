@@ -4,12 +4,14 @@
 
 #define LETTER_WIDTH 8
 
+static uint64_t scale = 1;
+
 typedef struct {
 	char letter;
 	uint32_t color;
 } bufferItem;
 
-#define BUFFER_SIZE 12288
+#define BUFFER_SIZE 6144
 	
 static bufferItem screenBuffer[BUFFER_SIZE];
 
@@ -65,28 +67,25 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 
-uint8_t reverseBits(uint8_t byte) {
-    byte = (byte & 0xF0) >> 4 | (byte & 0x0F) << 4;
-    byte = (byte & 0xCC) >> 2 | (byte & 0x33) << 2;
-    byte = (byte & 0xAA) >> 1 | (byte & 0x55) << 1;
-    return byte;
-}
-
 void putChar(uint8_t c, uint32_t hexacolor, uint64_t x, uint64_t y) {
     for (int row = 0; row < LETTER_WIDTH; row++) {
-        uint8_t row_data = reverseBits(font[(int)c][row]); // Invertir los bits 
+        uint8_t row_data = font[(int)c][row];
         for (int col = 0; col < LETTER_WIDTH; col++) {
-            if (row_data & (1 << (LETTER_WIDTH - 1 - col))) {
-                putPixel(hexacolor, x + col, y + row);
-            }
+          	if (row_data & (1 << col)) {
+				for(int i = 0; i < scale; i++){
+					for(int j = 0; j < scale; j++){
+						putPixel(hexacolor, x + scale * col + i, y + scale * row + j);
+					}
+				}
+          	}
         }
     }
 }
 
 void clearChar(uint64_t x, uint64_t y){
-	for (int row = 0; row < LETTER_WIDTH; row++) {
-		for(int col = 0; col < LETTER_WIDTH; col++){
-     		putPixel(0x000000, x + col, y + row);
+	for (int row = 0; row < LETTER_WIDTH * scale; row++) {
+		for(int col = 0; col < LETTER_WIDTH * scale; col++){
+			putPixel(0x000000, x + col, y + row);
 		}
   }
 }
@@ -107,20 +106,20 @@ void clear(){
 
 void print(){
 	int x = 0;
-	int y = 8;
-	for(int i = 0; i < BUFFER_SIZE; i++){
+	int y = LETTER_WIDTH * scale;
+	int i;
+	for(i = 0; i < BUFFER_SIZE; i++){
 		switch(screenBuffer[i].letter) {
 			case '\n':
 				x = 0;
-				y += LETTER_WIDTH;	
+				y += 2 * LETTER_WIDTH * scale;	
 				break;
 			default:
-				clearChar(x, y);
 				putChar(screenBuffer[i].letter, screenBuffer[i].color, x, y);
-				x += LETTER_WIDTH;
+				x += LETTER_WIDTH * scale;
 				if(x >= getWidth()){
 					x = 0;
-					y += LETTER_WIDTH;
+					y += 2 * LETTER_WIDTH * scale;
 				}
 				break;
 		}
@@ -145,4 +144,12 @@ void putsAtPos(const char* str, uint32_t hexacolor, uint64_t position){
 void remove(){
 	bufferPosition--;
 	screenBuffer[bufferPosition].letter = 0;
+}
+
+void zoomIn(){
+	if(scale < 4) scale++;
+}
+
+void zoomOut(){
+	if(scale > 1) scale--;
 }
