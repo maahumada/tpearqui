@@ -10,6 +10,10 @@ extern void readline(char* buffer, uint64_t count);
 extern void getChar();
 extern void printScreen();
 extern void getTimeString(char* buffer);
+extern void zoomInScreen();
+extern void zoomOutScreen();
+extern void clearAux();
+
 
 static const char * notfound = "Command not found\n";
 static const char * helpDump = "clear: clears screen.\ndump: shows registers status.\neliminator: starts game\ntime: shows time\n";
@@ -64,13 +68,17 @@ void time() {
 }
 
 void zoomIn(){
-	print("zoom in\n", 0xFFFFFF);
+	print("zoom in\n", 0x223376);
 	printScreen();
+	// clearAux();
+	// zoomInScreen();
 }
 
 void zoomOut(){
-	print("zoom out\n", 0xFFFFFF);
+	print("zoom out\n", 0x981472);
 	printScreen();
+	// clearAux();
+	// zoomOutScreen();
 } 
 
 

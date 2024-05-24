@@ -34,6 +34,9 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
         case 0x07:
             zoomOut();
             break;
+        case 0x08:
+            clear();
+            break;
         default:
             puts("SYSCALL ??", 0xFF00FF);
             print();
