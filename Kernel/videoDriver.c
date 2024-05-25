@@ -148,8 +148,10 @@ void remove(){
 
 void zoomIn(){
 	if(scale < 4) scale++;
+	else puts("MAX ZOOM REACHED\n", 0xFF0000);
 }
 
 void zoomOut(){
 	if(scale > 1) scale--;
+	else puts("MIN ZOOM REACHED\n", 0xFF0000);
 }

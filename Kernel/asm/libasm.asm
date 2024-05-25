@@ -2,6 +2,8 @@ GLOBAL cpuVendor
 GLOBAL readKeyPol
 
 section .text
+
+
 	
 cpuVendor:
 	push rbp

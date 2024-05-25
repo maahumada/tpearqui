@@ -1,4 +1,12 @@
-GLOBAL print, readline, printScreen, getTimeString, zoomInScreen, zoomOutScreen, clearAux
+GLOBAL print
+GLOBAL readline
+GLOBAL printScreen
+GLOBAL getTimeString
+GLOBAL zoomInScreen
+GLOBAL zoomOutScreen
+GLOBAL clearScreen
+
+section .text
 
 print:
     mov r9, 0x01 ; el "id" de la syscall
@@ -35,7 +43,7 @@ zoomOutScreen:
     int 80h
     ret
 
-clearAux:
+clearScreen:
     mov r9, 0x08
     int 80h
     ret

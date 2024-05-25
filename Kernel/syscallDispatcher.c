@@ -5,22 +5,12 @@
 #include <clock.h>
 
 void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint64_t p4, uint64_t id){
-    puts("START DISPATCH WITH ID: ", 0xFF0000);
-    char t[5];
-    numToStr(id, t);
-    puts(t, 0xFFFFFF);
-    puts("\n", 0xFFFFFF);
-    print();
     switch(id){
         case 0x01: // Print
             puts(p0, p1);
             break;
         case 0x02: // Read
-            puts("STARTING READ\n", 0x0000FF);
-            print();
             read(p0, p1);
-            puts("FINISH READ\n", 0x0000FF);
-            print();
             break;
         case 0x04: // PrintScreen
             print();
@@ -42,9 +32,4 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             print();
             break;
     }
-    puts("FINISH DISPATCH WITH ID: ", 0xFF0000);
-    numToStr(id, t);
-    puts(t, 0xFFFFFF);
-    puts("\n", 0xFFFFFF);
-    print();
 }

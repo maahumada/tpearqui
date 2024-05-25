@@ -5,19 +5,8 @@
 
 #define COMMANDS_DIM 7
 
-extern void print(char* str, uint32_t hexacolor);
-extern void readline(char* buffer, uint64_t count);
-extern void getChar();
-extern void printScreen();
-extern void getTimeString(char* buffer);
-extern void zoomInScreen();
-extern void zoomOutScreen();
-extern void clearAux();
-
-
 static const char * notfound = "Command not found\n";
 static const char * helpDump = "clear: clears screen.\ndump: shows registers status.\neliminator: starts game\ntime: shows time\n";
-
 
 char buffer[1000];
 static char *commands[COMMANDS_DIM] = {
@@ -68,19 +57,14 @@ void time() {
 }
 
 void zoomIn(){
-	print("zoom in\n", 0x223376);
-	printScreen();
-	// clearAux();
-	// zoomInScreen();
+	clearScreen();
+	zoomInScreen();
 }
 
 void zoomOut(){
-	print("zoom out\n", 0x981472);
-	printScreen();
-	// clearAux();
-	// zoomOutScreen();
+	clearScreen();
+	zoomOutScreen();
 } 
-
 
 void notFound(){
 	print(notfound, 0xFF0000);
@@ -113,14 +97,11 @@ void callCommand(int i) {
 	}
 }
 
+
 int main() {
 	while(1){
 		printPrompt();
-		print("\nREADING...\n", 0xFF0000);
-		printScreen();
 		readline(buffer, 1000);
-		print("\nREAD DONE\n", 0xFF0000);
-		printScreen();
 		int found = 0;
 		for(int i = 0; i < COMMANDS_DIM && !found; i++){
 			if(strcmp(buffer, commands[i]) == 0){

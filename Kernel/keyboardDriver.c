@@ -1,5 +1,6 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>
+#include <interrupts.h>
 
 #define LETTER_WIDTH 8
 #define LINE_HEIGHT 12
@@ -47,7 +48,7 @@ static char stdInBuffer[1000];
 static uint64_t stdInBufferPosition;
 
 void keyboard_handler(){
-  uint8_t aux = readKeyPol();
+  	uint8_t aux = readKeyPol();
 	uint8_t currentChar;
 
 	if(aux & 0x80) { // tecla levantada, ignorar
@@ -93,13 +94,17 @@ void keyboard_handler(){
 }
 
 uint64_t read(char* buffer, uint64_t count){
+	_sti();
 	stdInBufferPosition = 0;
-	while(stdInBufferPosition == 0 || (stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count)){
-		keyboard_handler();
-	}
+	do{
+	}while(stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count);
+	
 	for(int i = 0; i < stdInBufferPosition - 1; i++){
 	 	buffer[i] = stdInBuffer[i];
 	}
+
 	buffer[stdInBufferPosition - 1] = 0;
+
+	_cli();
 	return stdInBufferPosition;
-};
+}
