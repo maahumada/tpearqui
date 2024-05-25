@@ -1,10 +1,9 @@
 GLOBAL cpuVendor
 GLOBAL readKeyPol
+GLOBAL getRegisters
 
 section .text
 
-
-	
 cpuVendor:
 	push rbp
 	mov rbp, rsp
@@ -48,3 +47,24 @@ readKeyPol:
 	mov rsp, rbp
 	pop rbp 		; desarmado stackframe
 	ret 			; en al quedó el caracter
+
+getRegisters:
+	push rbp
+	mov rbp, rsp
+
+	mov rbx, 0
+
+.L1:
+	cmp rbx, 16
+	je .end
+	mov rax, [rbp + 50h + 8*rbx]
+	inc rbx
+	mov [rdi], rax
+	add rsp, 8
+	add rdi, 8
+	jmp .L1
+
+.end:
+	mov rsp, rbp
+	pop rbp
+  ret

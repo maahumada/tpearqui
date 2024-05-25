@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 uint64_t read(char* buffer, uint64_t count);
+void getChar(uint8_t* character);
 
 static uint8_t const spanish_keyboard_layout[][3] = {
     {1}, // Happy smile
@@ -31,7 +32,7 @@ static uint8_t const spanish_keyboard_layout[][3] = {
     {'i', 'I'},
     {'o', 'O'},
     {'p', 'P'},
-    {0xB4, '¨'}, // ´ makes VS cry
+    {0xB4, '¨'},
     {'+', '*', '~'},
     {'\n', '\n'},
     {0}, // LCtrl

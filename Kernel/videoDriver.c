@@ -4,7 +4,7 @@
 
 #define LETTER_WIDTH 8
 
-static uint64_t scale = 1;
+static uint64_t scale = 2;
 
 typedef struct {
 	char letter;
@@ -67,17 +67,23 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 
-void putChar(uint8_t c, uint32_t hexacolor, uint64_t x, uint64_t y) {
+void putCharPixel(uint8_t c, uint32_t hexacolor, uint64_t x, uint64_t y) {
     for (int row = 0; row < LETTER_WIDTH; row++) {
         uint8_t row_data = font[(int)c][row];
         for (int col = 0; col < LETTER_WIDTH; col++) {
           	if (row_data & (1 << col)) {
-				for(int i = 0; i < scale; i++){
-					for(int j = 0; j < scale; j++){
-						putPixel(hexacolor, x + scale * col + i, y + scale * row + j);
-					}
-				}
-          	}
+							for(int i = 0; i < scale; i++){
+								for(int j = 0; j < scale; j++){
+									putPixel(hexacolor, x + scale * col + i, y + scale * row + j);
+								}
+							}
+          	} else {
+							for(int i = 0; i < scale; i++){
+								for(int j = 0; j < scale; j++){
+									putPixel(0x000000, x + scale * col + i, y + scale * row + j);
+								}
+							}
+						}
         }
     }
 }
@@ -98,30 +104,41 @@ uint64_t getHeight() {
 	return (uint64_t)VBE_mode_info->height;
 }
 
-void clear(){
+void blackOut(){
 	for(int x = 0; x < 1024; x++)
 		for(int y = 0; y < 768; y++)
 			putPixel(0x000000, x, y);
+}
+
+void clear(){
+	blackOut();
+	for(int i = 0; i < bufferPosition; i++)
+		screenBuffer[i].letter = 0;
+	bufferPosition = 0;
 }
 
 void print(){
 	int x = 0;
 	int y = LETTER_WIDTH * scale;
 	int i;
-	for(i = 0; i < BUFFER_SIZE; i++){
+	for(i = 0; i <= bufferPosition; i++){
 		switch(screenBuffer[i].letter) {
 			case '\n':
 				x = 0;
 				y += 2 * LETTER_WIDTH * scale;	
 				break;
 			default:
-				putChar(screenBuffer[i].letter, screenBuffer[i].color, x, y);
-				x += LETTER_WIDTH * scale;
-				if(x >= getWidth()){
+				if(x + LETTER_WIDTH * scale > getWidth()) {
 					x = 0;
 					y += 2 * LETTER_WIDTH * scale;
 				}
+				putCharPixel(screenBuffer[i].letter, screenBuffer[i].color, x, y);
+				x += LETTER_WIDTH * scale;
 				break;
+		}
+		if(y > getHeight()){
+			clear();
+			return;
 		}
 	}
 }
@@ -141,17 +158,25 @@ void putsAtPos(const char* str, uint32_t hexacolor, uint64_t position){
 	}
 }
 
-void remove(){
+void putChar(uint8_t character, uint32_t hexacolor){
+	screenBuffer[bufferPosition].letter = character;
+	screenBuffer[bufferPosition].color = hexacolor;
+	bufferPosition++;
+}
+
+void removeChar(){
 	bufferPosition--;
 	screenBuffer[bufferPosition].letter = 0;
 }
 
 void zoomIn(){
+	blackOut();
 	if(scale < 4) scale++;
 	else puts("MAX ZOOM REACHED\n", 0xFF0000);
 }
 
 void zoomOut(){
+	blackOut();
 	if(scale > 1) scale--;
 	else puts("MIN ZOOM REACHED\n", 0xFF0000);
 }

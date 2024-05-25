@@ -49,7 +49,6 @@ static uint64_t stdInBufferPosition;
 
 void keyboard_handler(){
   	uint8_t aux = readKeyPol();
-	uint8_t currentChar;
 
 	if(aux & 0x80) { // tecla levantada, ignorar
 		aux -= 0x80;
@@ -71,34 +70,23 @@ void keyboard_handler(){
 			stdInBuffer[stdInBufferPosition++] = spanish_keyboard_layout[aux][keyMapRow]; 
 			break;
 	}
+}
 
-	//PRINT TO STDOUT
-	char t[2];
-	t[1] = 0;
-	char c;
-	switch(aux){
-		case BACKSPACE:
-			remove();
-			print();
-			return;
-		case ENTER:
-			c = '\n';
-			break;
-		default:
-			c = spanish_keyboard_layout[aux][keyMapRow];
-			break;
+void getChar(uint8_t* character){
+	_sti();
+	while(stdInBufferPosition == 0){}
+	*character = stdInBuffer[0];
+	for(int i = 1; i < stdInBufferPosition; i++){
+		stdInBuffer[i-1] = stdInBuffer[i];
 	}
-	t[0] = c;
-	puts(t, 0xFFFFFF);
-	print();
+	stdInBufferPosition--;
+	_cli();
 }
 
 uint64_t read(char* buffer, uint64_t count){
 	_sti();
 	stdInBufferPosition = 0;
-	do{
-	}while(stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count);
-	
+	do{}while(stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count);
 	for(int i = 0; i < stdInBufferPosition - 1; i++){
 	 	buffer[i] = stdInBuffer[i];
 	}

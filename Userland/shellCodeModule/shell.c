@@ -3,12 +3,22 @@
 #include <stdint.h>
 #include <strings.h>
 
-#define COMMANDS_DIM 7
+#define ENTER '\n'
+#define BACKSPACE '\b'
 
+#define COMMANDS_DIM 8
+#define REGISTERS_DIM 16
+
+const char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out"};
+const char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size"};
 static const char * notfound = "Command not found\n";
-static const char * helpDump = "clear: clears screen.\ndump: shows registers status.\neliminator: starts game\ntime: shows time\n";
 
-char buffer[1000];
+
+#define BUFFER_SIZE 6144
+	
+static char buffer[BUFFER_SIZE];
+static uint64_t bufferPosition = 0;
+
 static char *commands[COMMANDS_DIM] = {
 	"clear",
 	"dump",
@@ -16,58 +26,97 @@ static char *commands[COMMANDS_DIM] = {
 	"help",
 	"time",
 	"zoom-in",
-	"zoom-out"
+	"zoom-out",
+	""
 };
 
+const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "RSP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
+
 void printPrompt(){
-	print("usuario@ArquiOS", 0x00FF00);
-	print(":", 0xFFFFFF);
-	print("/", 0x0000FF);
-	print("$ ", 0xFFFFFF);
+	puts("usuario@ArquiOS", 0x00FF00);
+	puts(":", 0xFFFFFF);
+	puts("/", 0x0000FF);
+	puts("$ ", 0xFFFFFF);
 	printScreen();
 }
 
 void clear(){
-	print("clear\n", 0x00FF00);
-	printScreen();
+	clearScreen();
 }
 
+void hex_to_ascii(uint64_t hex, char *ascii) {
+    // Character array for hex digits
+    const char hex_digits[] = "0123456789ABCDEF";
+    int i;
+    
+    // Initialize the ASCII array with null characters
+    for (i = 0; i < 17; i++) {
+        ascii[i] = '\0';
+    }
+
+    // Convert hex to ASCII starting from the least significant digit
+    for (i = 15; i >= 0; i--) {
+        ascii[i] = hex_digits[hex & 0xF];
+        hex >>= 4;
+    }
+}
 
 void dump() {
-	print("Dump:\n", 0xFFFFFF);
+	uint64_t registers[REGISTERS_DIM];
+	getRegisters(registers);
+	for (int i = 0; i < REGISTERS_DIM; i++) {
+		puts(register_names[i], 0xeb6d3f);
+		puts("0x", 0xFFFFFF);
+		char str[100];
+		hex_to_ascii(registers[REGISTERS_DIM-1-i], str);
+		puts(str, 0xFFFFFF);
+		if(i % 2 == 1) puts("\n", 0x000000);
+		else puts("  ", 0x000000);
+	}
 	printScreen();
 }
 
 void eliminator() {
-	print("eliminator\n", 0xFFFFFF);
+	puts("eliminator\n", 0xFFFFFF);
 	printScreen();
 }
 
 void help() {
-	print(helpDump, 0xFFFFFF);
+	for (int i = 0; i < COMMANDS_DIM-1; i++) {
+		puts(" - ", 0xFFFFFF);
+		puts(command_names[i], 0xeb6d3f);
+		puts(": ", 0xFFFFFF);
+		puts(command_descriptions[i], 0xFFFFFF);
+		puts("\n", 0x000000);
+	}
 	printScreen();
 }
 
 void time() {
 	char timeBuffer[20] = { 0 };
 	getTimeString(timeBuffer);
-	print(timeBuffer, 0xFF77FF);
-	print("\n", 0xFF77FF);
+	puts(" ", 0x000000);
+	puts(timeBuffer, 0xFF77FF);
+	puts("\n", 0xFF77FF);
 	printScreen();
 }
 
 void zoomIn(){
-	clearScreen();
 	zoomInScreen();
 }
 
 void zoomOut(){
-	clearScreen();
 	zoomOutScreen();
 } 
 
 void notFound(){
-	print(notfound, 0xFF0000);
+	puts(notfound, 0xFF0000);
+	printScreen();
+}
+
+void noCommand(){
+	//puts("\n", 0x000000);
+	putChar('\n', 0xFFFFFF);
 	printScreen();
 }
 
@@ -94,6 +143,9 @@ void callCommand(int i) {
 		case 6: 
 			zoomOut();
 			break;
+		case 7:
+			noCommand();
+			break;
 	}
 }
 
@@ -101,7 +153,29 @@ void callCommand(int i) {
 int main() {
 	while(1){
 		printPrompt();
-		readline(buffer, 1000);
+		
+		// Get keyboard input
+		bufferPosition = 0;
+		uint8_t current;
+		getChar(&current);
+		while(current != ENTER) {
+ 	 		if(current == BACKSPACE) {
+				if(bufferPosition > 0){
+					buffer[--bufferPosition] = 0;
+					removeChar();
+				}
+			} else if(current != 0) {
+				buffer[bufferPosition++] = current;
+				putChar(current, 0xFFFFFF);
+			}
+			printScreen();
+			getChar(&current);
+		}
+		putChar('\n', 0xFFFFFF);
+		printScreen();
+		buffer[bufferPosition] = 0;
+		
+    // Select and execute command
 		int found = 0;
 		for(int i = 0; i < COMMANDS_DIM && !found; i++){
 			if(strcmp(buffer, commands[i]) == 0){

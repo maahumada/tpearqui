@@ -1,14 +1,19 @@
-GLOBAL print
+GLOBAL puts
 GLOBAL readline
+GLOBAL getChar
 GLOBAL printScreen
 GLOBAL getTimeString
 GLOBAL zoomInScreen
 GLOBAL zoomOutScreen
+GLOBAL blackOut
+GLOBAL putChar
+GLOBAL removeChar
+GLOBAL getRegisters
 GLOBAL clearScreen
 
 section .text
 
-print:
+puts:
     mov r9, 0x01 ; el "id" de la syscall
     int 80h
     ret  
@@ -43,7 +48,27 @@ zoomOutScreen:
     int 80h
     ret
 
-clearScreen:
+blackOut:
     mov r9, 0x08
+    int 80h
+    ret
+
+putChar:
+    mov r9, 0x09
+    int 80h
+    ret
+    
+removeChar:
+    mov r9, 0x0A
+    int 80h
+    ret
+
+getRegisters:
+   mov r9, 0x0B
+   int 80h
+   ret
+
+clearScreen:
+    mov r9, 0x0C
     int 80h
     ret
