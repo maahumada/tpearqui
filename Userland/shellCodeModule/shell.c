@@ -6,13 +6,14 @@
 #define ENTER '\n'
 #define BACKSPACE '\b'
 
-#define COMMANDS_DIM 8
+#define COMMANDS_DIM 9
 #define REGISTERS_DIM 16
 
-const char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out"};
-const char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size"};
-static const char * notfound = "Command not found\n";
+char username[40] = {'u','s','u','a','r','i','o',0};
 
+const char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config"};
+const char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration"};
+static const char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
 	
@@ -27,13 +28,15 @@ static char *commands[COMMANDS_DIM] = {
 	"time",
 	"zoom-in",
 	"zoom-out",
-	""
+	"",
+	"config"
 };
 
 const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "RSP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
 
 void printPrompt(){
-	puts("usuario@ArquiOS", 0x00FF00);
+	puts(username, 0x00FF00);
+	puts("@ArquiOS", 0x00FF00);
 	puts(":", 0xFFFFFF);
 	puts("/", 0x0000FF);
 	puts("$ ", 0xFFFFFF);
@@ -146,7 +149,32 @@ void callCommand(int i) {
 		case 7:
 			noCommand();
 			break;
+		case 8:
+			config();
+			break;
 	}
+}
+
+void config(){
+	puts("Nombre de usuario: ", 0xFFFFFF);
+	int index = 0;
+	uint8_t current;
+	while(current != ENTER) {
+ 		if(current == BACKSPACE) {
+			if(index > 0){
+				username[--index] = 0;
+				removeChar();
+			}
+		} else if(current != 0) {
+			username[index++] = current;
+			putChar(current, 0xFFFFFF);
+		}
+		printScreen();
+		getChar(&current);
+	}
+	username[index] = 0;
+	putChar('\n', 0xFFFFFF);
+	printScreen();
 }
 
 
