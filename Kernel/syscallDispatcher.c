@@ -42,6 +42,15 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
         case 0x0C:
             clear();
             break;
+        case 0x0D:
+            putSquare(p0,p1,p2,p3);
+            break;
+        case 0x0E:
+            timer_wait(p0);
+            break;
+        case 0x0F:
+            getLastPressed(p0);
+            break;
         default:
             break;
     }

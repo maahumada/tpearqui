@@ -4,6 +4,7 @@
 
 uint64_t read(char* buffer, uint64_t count);
 void getChar(uint8_t* character);
+void getLastPressed(uint8_t* character);
 
 static uint8_t const spanish_keyboard_layout[][3] = {
     {1}, // Happy smile

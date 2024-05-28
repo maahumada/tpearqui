@@ -13,5 +13,8 @@ extern void zoomOutScreen();
 extern void blackOut();
 extern void getRegisters(uint64_t* registers);
 extern void clearScreen();
+extern void putSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint64_t size);
+extern void sleep(uint64_t time);
+extern void getLastPressed(uint8_t* character);
 
 #endif

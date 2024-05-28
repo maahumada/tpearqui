@@ -83,6 +83,14 @@ void getChar(uint8_t* character){
 	_cli();
 }
 
+void getLastPressed(uint8_t* character){
+	if(stdInBufferPosition == 0) {
+		*character = 0;
+	} else {
+		*character = stdInBuffer[--stdInBufferPosition];
+	}
+}
+
 uint64_t read(char* buffer, uint64_t count){
 	_sti();
 	stdInBufferPosition = 0;

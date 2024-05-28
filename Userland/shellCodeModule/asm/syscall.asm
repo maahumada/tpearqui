@@ -10,6 +10,9 @@ GLOBAL putChar
 GLOBAL removeChar
 GLOBAL getRegisters
 GLOBAL clearScreen
+GLOBAL putSquare
+GLOBAL sleep
+GLOBAL getLastPressed
 
 section .text
 
@@ -70,5 +73,20 @@ getRegisters:
 
 clearScreen:
     mov r9, 0x0C
+    int 80h
+    ret
+
+putSquare:
+    mov r9, 0x0D
+    int 80h
+    ret
+
+sleep:
+    mov r9, 0X0E
+    int 80h
+    ret
+
+getLastPressed:
+    mov r9, 0X0F
     int 80h
     ret

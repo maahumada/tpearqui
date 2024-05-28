@@ -180,3 +180,11 @@ void zoomOut(){
 	if(scale > 1) scale--;
 	else puts("MIN ZOOM REACHED\n", 0xFF0000);
 }
+
+void putSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t size){
+  for(int i = x; i < x + size; i++){
+      for(int j = y; j < y + size; j++) {
+          putPixel(color, i, j);
+      }
+  } 
+}
