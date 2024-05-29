@@ -13,6 +13,8 @@ static char keyMapRow = 0;
 #define ALT 0x38
 #define ENTER 0x1C
 #define BACKSPACE 0x0E
+#define CAPSLOCK 0x3A
+#define CTRL 0x1D
 
 uint64_t x = 0;
 uint64_t y = LINE_HEIGHT;
@@ -46,6 +48,8 @@ void numToStr(uint64_t num, char* buffer){
 
 static char stdInBuffer[1000];
 static uint64_t stdInBufferPosition;
+static char control = 0;
+static char capsLock = 0;
 
 void keyboard_handler(){
   	uint8_t aux = readKeyPol();
@@ -54,6 +58,9 @@ void keyboard_handler(){
 		aux -= 0x80;
 		if(aux == LEFT_SHIFT || aux == RIGHT_SHIFT || aux == ALT){
 			keyMapRow = 0;
+		}
+		if(aux == CTRL) {
+			control = 0;
 		}
 		return;
 	}
@@ -66,8 +73,20 @@ void keyboard_handler(){
 		case ALT:
 			keyMapRow = 2;
 			break;
+		case CTRL:
+			control = 1;
+			break;
+		case CAPSLOCK:
+			capsLock = (capsLock == 0) ? 1 : 0;
+			break;
 		default:
-			stdInBuffer[stdInBufferPosition++] = spanish_keyboard_layout[aux][keyMapRow]; 
+			stdInBuffer[stdInBufferPosition] = spanish_keyboard_layout[aux][keyMapRow]; 
+			if(capsLock == 1 && stdInBuffer[stdInBufferPosition] >= 'a' && stdInBuffer[stdInBufferPosition] <= 'z') stdInBuffer[stdInBufferPosition] -= 'a' - 'A';
+			if(control == 1 && (stdInBuffer[stdInBufferPosition] == 'R' || stdInBuffer[stdInBufferPosition] == 'r')) {
+				updateRegisters();
+				stdInBufferPosition--;
+			}
+			stdInBufferPosition++;
 			break;
 	}
 }

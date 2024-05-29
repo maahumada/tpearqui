@@ -1,6 +1,6 @@
 GLOBAL cpuVendor
 GLOBAL readKeyPol
-GLOBAL getRegisters
+GLOBAL copyRegisters
 GLOBAL outb
 GLOBAL inb
 
@@ -50,7 +50,7 @@ readKeyPol:
 	pop rbp 		; desarmado stackframe
 	ret 			; en al quedó el caracter
 
-getRegisters:
+copyRegisters:
 	push rbp
 	mov rbp, rsp
 
@@ -59,7 +59,7 @@ getRegisters:
 .L1:
 	cmp rbx, 16
 	je .end
-	mov rax, [rbp + 50h + 8*rbx]
+	mov rax, [rbp + 0x60 + 8*rbx]
 	inc rbx
 	mov [rdi], rax
 	add rsp, 8
@@ -67,6 +67,8 @@ getRegisters:
 	jmp .L1
 
 .end:
+	mov rax, [rbp + 0x60 + 8 * 17]
+	mov [rdi], rax 
 	mov rsp, rbp
 	pop rbp
   ret

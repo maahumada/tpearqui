@@ -28,12 +28,11 @@ SECTION .text
 	push rcx
 	push rdx
 	push rbp
-	push rsp
 	push rdi
 	push rsi
 	push r8
 	push r9
-	push r10
+	push 0xFEDEFEDE
 	push r11
 	push r12
 	push r13
@@ -52,7 +51,6 @@ SECTION .text
 	pop r8
 	pop rsi
 	pop rdi
-	pop rsp
 	pop rbp
 	pop rdx
 	pop rcx

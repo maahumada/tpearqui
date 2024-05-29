@@ -8,7 +8,7 @@
 #define BACKSPACE '\b'
 
 #define COMMANDS_DIM 9
-#define REGISTERS_DIM 16
+#define REGISTERS_DIM 17
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
@@ -33,7 +33,7 @@ static char *commands[COMMANDS_DIM] = {
 	"config"
 };
 
-const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "RSP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
+const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: ", "RIP: ", "RSP: "};
 
 void printPrompt(){
 	puts(username, 0x00FF00);
@@ -77,6 +77,7 @@ void dump() {
 		if(i % 2 == 1) puts("\n", 0x000000);
 		else puts("  ", 0x000000);
 	}
+	puts("\n", 0x000000);
 	printScreen();
 }
 
