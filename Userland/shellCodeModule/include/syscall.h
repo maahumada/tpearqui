@@ -19,5 +19,6 @@ extern void getLastPressed(uint8_t* character);
 extern void makeBeep();
 extern void exception00();
 extern void exception06();
+extern void printImage(uint64_t x, uint64_t y);
 
 #endif

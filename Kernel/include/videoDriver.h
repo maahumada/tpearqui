@@ -11,5 +11,6 @@ void zoomOut();
 void putSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t size);
 void zeroDivisionExceptionHandler();
 void invalidOpCodeExceptionHandler();
+void printImage(uint64_t x, uint64_t y);
 
 #endif

@@ -14,6 +14,7 @@ GLOBAL putSquare
 GLOBAL sleep
 GLOBAL getLastPressed
 GLOBAL makeBeep
+GLOBAL printImage
 GLOBAL exception00
 GLOBAL exception06
 
@@ -96,6 +97,11 @@ getLastPressed:
 
 makeBeep:
     mov r9, 0X10
+    int 80h
+    ret
+
+printImage:
+    mov r9, 0x11
     int 80h
     ret
 

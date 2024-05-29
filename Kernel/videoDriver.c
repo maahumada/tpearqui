@@ -1,6 +1,7 @@
 #include <videoDriver.h>
 #include <fonts.h>
 #include <keyboardDriver.h>
+#include <image.h>
 
 #define LETTER_WIDTH 8
 
@@ -195,4 +196,13 @@ void zeroDivisionExceptionHandler(){
 
 void invalidOpCodeExceptionHandler(){
 	puts("ERROR: INVALID OP-CODE", 0xFF0000);
+}
+
+void printImage(uint64_t x, uint64_t y){
+	uint64_t size = 4;
+	for(int i = 0; i < IMAGE_WIDTH; i++){
+		for(int j = 0; j < IMAGE_HEIGHT; j++){
+			putSquare(image[i][j], i * size + x, j * size + y, size);
+		}
+	}
 }
