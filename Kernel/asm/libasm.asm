@@ -54,21 +54,23 @@ copyRegisters:
 	push rbp
 	mov rbp, rsp
 
+	add rsp, rsi
+
 	mov rbx, 0
 
 .L1:
 	cmp rbx, 16
 	je .end
-	mov rax, [rbp + 0x60 + 8*rbx]
+	mov rax, qword[rsp + 8*rbx]
 	inc rbx
-	mov [rdi], rax
-	add rsp, 8
+	mov qword[rdi], rax
 	add rdi, 8
 	jmp .L1
 
 .end:
-	mov rax, [rbp + 0x60 + 8 * 17]
-	mov [rdi], rax 
+	mov rax, [rbp + 8 * 18]
+	mov qword[rdi], rax 
+
 	mov rsp, rbp
 	pop rbp
   ret
