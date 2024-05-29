@@ -1,6 +1,8 @@
 GLOBAL cpuVendor
 GLOBAL readKeyPol
 GLOBAL getRegisters
+GLOBAL outb
+GLOBAL inb
 
 section .text
 
@@ -68,3 +70,14 @@ getRegisters:
 	mov rsp, rbp
 	pop rbp
   ret
+
+outb:
+	mov edx, edi
+	mov eax, esi
+	out dx, al ; portr en rax 
+	ret
+
+inb:
+	mov edx, edi
+	in al, dx ;(in dest, port)
+	ret

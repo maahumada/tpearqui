@@ -13,6 +13,7 @@ GLOBAL clearScreen
 GLOBAL putSquare
 GLOBAL sleep
 GLOBAL getLastPressed
+GLOBAL makeBeep
 
 section .text
 
@@ -88,5 +89,10 @@ sleep:
 
 getLastPressed:
     mov r9, 0X0F
+    int 80h
+    ret
+
+makeBeep:
+    mov r9, 0X10
     int 80h
     ret

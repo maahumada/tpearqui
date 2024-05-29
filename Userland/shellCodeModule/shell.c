@@ -264,15 +264,16 @@ static void getData(){
 }
 
 static void instructions(){
-	puts("\n", 0x00);
-	puts(name1, 0xff);
-	puts(" plays with:\na: left\nw: up\nd: right\ns:down\n", 0xff);
+	puts("\n ", 0x00);
+	puts(name1, PLAYER_1_COLOR);
+	puts(" plays with:\n A: left\n W: up\n D: right\n S:down\n", PLAYER_1_COLOR);
 	if(players == 2){
 		puts("\n", 0x00);
-		puts(name2, 0xff);
-		puts(" plays with:\na: left\nw: up\nd: right\ns:down\n", 0xff);
+		puts(name2, PLAYER_2_COLOR);
+		puts(" plays with:\n J: left\n I: up\n L: right\n K:down\n", PLAYER_2_COLOR);
 	}
 	printScreen();
+	sleep(41); 
 }
 
 static void menu(){
@@ -317,7 +318,6 @@ static void menu(){
     sleep(18);    
 
 	instructions();
-	sleep(32); 
 }
 
 static void nextGame() {
@@ -442,16 +442,19 @@ void eliminator() {
     while(1){
         // Check Tie
         if(occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
+			makeBeep();
             tie();
             finished = 1;
         }
         // Check Player 1 loses
         if(occupied[y1][x1] != 0) { 
+			makeBeep();
             lostPlayer1();
             finished = 1;
         }
         // Check Player 2 los
         if(occupied[y2][x2] != 0) {
+			makeBeep();
             lostPlayer2();
             finished = 1;
         }
