@@ -51,6 +51,9 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
         case 0x0F:
             getLastPressed(p0);
             break;
+        case 0x10:
+            printImage(p0, p1);
+            break;
         default:
             break;
     }
