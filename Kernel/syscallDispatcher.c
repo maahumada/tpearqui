@@ -4,6 +4,7 @@
 #include <naiveConsole.h>
 #include <speakerDriver.h>
 #include <clock.h>
+#include <interrupts.h>
 
 void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint64_t p4, uint64_t id){
     switch(id){
@@ -54,6 +55,12 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             break;
         case 0x10:
             beep();
+            break;
+        case 0x11:
+            _exception00Handler();
+            break;
+        case 0x12:
+            _exception06Handler();
             break;
         default:
             break;
