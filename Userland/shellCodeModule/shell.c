@@ -189,7 +189,7 @@ void callCommand(int i) {
 			exception06Tester();
 			break;
 		case 11:
-			printImage();
+			printImage(100, 100);
 			break;
 	}
 }

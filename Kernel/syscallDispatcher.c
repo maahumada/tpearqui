@@ -57,12 +57,6 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             beep();
             break;
         case 0x11:
-            _exception00Handler();
-            break;
-        case 0x12:
-            _exception06Handler();
-            break;
-        case 0x13:
             printImage(p0, p1);
             break;
         default:

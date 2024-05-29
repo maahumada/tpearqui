@@ -190,20 +190,19 @@ void putSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t size){
   } 
 }
 
-<<<<<<< HEAD
 void printImage(uint64_t x, uint64_t y){
-	uint64_t size = 6;
+	uint64_t size = 4;
 	for(int i = 0; i < IMAGE_WIDTH; i++){
 		for(int j = 0; j < IMAGE_HEIGHT; j++){
 			putSquare(image[i][j], i * size + x, j * size + y, size);
 		}
 	}
-=======
+}
+
 void zeroDivisionExceptionHandler(){
 	puts("ERROR: ZERO DIVISION", 0xFF0000);
 }
 
 void invalidOpCodeExceptionHandler(){
 	puts("ERROR: INVALID OP-CODE", 0xFF0000);
->>>>>>> main
 }
