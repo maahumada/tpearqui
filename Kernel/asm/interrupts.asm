@@ -13,11 +13,15 @@ GLOBAL _irq04Handler
 GLOBAL _irq05Handler
 GLOBAL _irq128Handler
 
-GLOBAL _exception0Handler
+GLOBAL _exception00Handler
+GLOBAL _exception06Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
+EXTERN puts
+EXTERN print
+EXTERN getStackBase
 
 
 SECTION .text
@@ -28,7 +32,6 @@ SECTION .text
 	push rcx
 	push rdx
 	push rbp
-	push rsp
 	push rdi
 	push rsi
 	push r8
@@ -52,7 +55,6 @@ SECTION .text
 	pop r8
 	pop rsi
 	pop rdi
-	pop rsp
 	pop rbp
 	pop rdx
 	pop rcx
@@ -77,18 +79,6 @@ SECTION .text
 %macro irqHandlerMasterSysCalls 0
 	pushState
 	call syscallDispatcher
-	popState
-	iretq
-%endmacro
-
-
-
-%macro exceptionHandler 1
-	pushState
-
-	mov rdi, %1 ; pasaje de parametro
-	call exceptionDispatcher
-
 	popState
 	iretq
 %endmacro
@@ -154,15 +144,41 @@ _irq128Handler:
 	irqHandlerMasterSysCalls
 
 ;Zero Division Exception
-_exception0Handler:
-	exceptionHandler 0
+_exception00Handler:
+	mov rdi, errorstr00
+	mov rsi, color
+	call puts
+	call print
+	call getStackBase
+	mov [rsp + 24], rax
+	mov rax, userland
+	mov [rsp], rax
+	iretq
+
+;Invalid OPCode Exception
+_exception06Handler:
+	mov rdi, errorstr06
+	mov rsi, color
+	call puts
+	call print
+	call getStackBase
+	mov [rsp + 24], rax
+	mov rax, userland
+	mov [rsp], rax
+	iretq
 
 haltcpu:
 	cli
 	hlt
 	ret
 
+SECTION .data
+	errorstr00 db "ERROR: ZERO DIVISION", 10, 0
+	errorstr06 db "ERROR: INVALID OP CODE", 10, 0
 
+SECTION .rodata
+	userland equ 0x400000
+	color equ 0xFF0000
 
 SECTION .bss
 	aux resq 1

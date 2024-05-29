@@ -14,6 +14,9 @@ GLOBAL putSquare
 GLOBAL sleep
 GLOBAL getLastPressed
 GLOBAL printImage
+GLOBAL makeBeep
+GLOBAL exception00
+GLOBAL exception06
 
 section .text
 
@@ -93,6 +96,20 @@ getLastPressed:
     ret
 
 printImage:
+    mov r9, 0X13
+    int 80h
+    ret
+    
+makeBeep:
     mov r9, 0X10
     int 80h
+    ret
+
+exception00:
+    mov rax, 0
+    div rax
+    ret
+
+exception06:
+    db 0xC0DE, 0xC0DE
     ret

@@ -18,7 +18,8 @@ void _irq04Handler(void);
 void _irq05Handler(void);
 void _irq128Handler(void);
 
-void _exception0Handler(void);
+void _exception00Handler(void);
+void _exception06Handler(void);
 
 void _cli(void);
 

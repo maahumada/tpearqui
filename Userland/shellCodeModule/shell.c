@@ -7,13 +7,13 @@
 #define ENTER '\n'
 #define BACKSPACE '\b'
 
-#define COMMANDS_DIM 10
+#define COMMANDS_DIM 12
 #define REGISTERS_DIM 16
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
-const char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "image"};
-const char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "a very inspirational image"};
+const char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
+const char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "a very inspirational image"};
 static const char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
@@ -31,10 +31,12 @@ static char *commands[COMMANDS_DIM] = {
 	"zoom-out",
 	"",
 	"config",
+	"exception00",
+	"exception06",
 	"image"
 };
 
-const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "RSP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
+const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: ", "RIP: ", "RSP: "};
 
 void printPrompt(){
 	puts(username, 0x00FF00);
@@ -78,6 +80,7 @@ void dump() {
 		if(i % 2 == 1) puts("\n", 0x000000);
 		else puts("  ", 0x000000);
 	}
+	puts("\n", 0x000000);
 	printScreen();
 }
 
@@ -142,6 +145,14 @@ void config(){
 	printScreen();
 }
 
+void exception00Tester(){
+	exception00();
+}
+
+void exception06Tester(){
+	exception06();
+}
+
 void callCommand(int i) {
 	switch(i) {
 		case 0: 
@@ -172,7 +183,13 @@ void callCommand(int i) {
 			config();
 			break;
 		case 9:
-			printImage(100, 100);
+			exception00Tester();
+			break;
+		case 10:
+			exception06Tester();
+			break;
+		case 11:
+			printImage();
 			break;
 	}
 }
@@ -268,15 +285,16 @@ static void getData(){
 }
 
 static void instructions(){
-	puts("\n", 0x00);
-	puts(name1, 0xff);
-	puts(" plays with:\na: left\nw: up\nd: right\ns:down\n", 0xff);
+	puts("\n ", 0x00);
+	puts(name1, PLAYER_1_COLOR);
+	puts(" plays with:\n A: left\n W: up\n D: right\n S:down\n", PLAYER_1_COLOR);
 	if(players == 2){
 		puts("\n", 0x00);
-		puts(name2, 0xff);
-		puts(" plays with:\na: left\nw: up\nd: right\ns:down\n", 0xff);
+		puts(name2, PLAYER_2_COLOR);
+		puts(" plays with:\n J: left\n I: up\n L: right\n K:down\n", PLAYER_2_COLOR);
 	}
 	printScreen();
+	sleep(41); 
 }
 
 static void menu(){
@@ -321,7 +339,6 @@ static void menu(){
     sleep(18);    
 
 	instructions();
-	sleep(32); 
 }
 
 static void clearInput() {
@@ -454,16 +471,19 @@ void eliminator() {
     while(1){
         // Check Tie
         if(occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
+			makeBeep();
             tie();
             finished = 1;
         }
         // Check Player 1 loses
         if(occupied[y1][x1] != 0) { 
+			makeBeep();
             lostPlayer1();
             finished = 1;
         }
         // Check Player 2 los
         if(occupied[y2][x2] != 0) {
+			makeBeep();
             lostPlayer2();
             finished = 1;
         }

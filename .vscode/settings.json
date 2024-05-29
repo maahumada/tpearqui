@@ -8,5 +8,6 @@
     "stdint.h": "c",
     "naiveconsole.h": "c",
     "strings.h": "c"
-  }
+  },
+  "workbench.colorTheme": "Default Dark+"
 }
