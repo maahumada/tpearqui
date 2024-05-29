@@ -4,7 +4,11 @@
 
 static uint64_t registers[REGISTERS_DIM];
 
-void updateRegisters() {
+void updateRegisters() { // CTRL + R
+    copyRegisters(registers, 0x70);
+}
+
+void updateRegistersFromException() { // triggered with exceptions
     copyRegisters(registers, 0x50);
 }
 

@@ -35,7 +35,7 @@ static char *commands[COMMANDS_DIM] = {
 	"exception06"
 };
 
-const char* register_names[REGISTERS_DIM] = {"RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: ", "RIP: ", "RSP: "};
+const char* register_names[REGISTERS_DIM] = {"RSP: ", "RIP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
 
 void printPrompt(){
 	puts(username, 0x00FF00);
