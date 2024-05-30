@@ -1,6 +1,8 @@
 #ifndef ELIMINATOR_H
 #define ELIMINATOR_H
 
+#include <stdint.h>
+
 #define WIDTH 128
 #define HEIGHT 96
 #define SIZE 8
@@ -12,6 +14,6 @@
 #define PLAYER_2_COLOR 0x0000FF
 #define START_DELAY 36
 
-void eliminator();
+void startEliminator();
 
 #endif
