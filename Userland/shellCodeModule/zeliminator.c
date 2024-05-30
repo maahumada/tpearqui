@@ -104,9 +104,17 @@ static void menu(){
 	instructions();
 }
 
+static void clearInput(){
+	uint8_t c = 1;
+	while(c){
+		getLastPressed(&c);
+	}
+}
+
 static void nextGame() {
 	sleep(50);
 	clear();
+	clearInput();
 
 	if(players == 2) {
 		puts(name1, 0x00FF00);
