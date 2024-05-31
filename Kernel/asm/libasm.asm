@@ -68,7 +68,7 @@ copyRegisters:
 	jmp .L1
 
 .end:
-	mov rax, [rbp + 8 * 18]
+	mov rax, [rsp + 8 * 18]
 	mov qword[rdi], rax 
 
 	mov rsp, rbp

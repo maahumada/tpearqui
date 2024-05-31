@@ -11,7 +11,7 @@ void updateRegisters() { // CTRL + R
 }
 
 void updateRegistersFromException() { // triggered with exceptions
-    copyRegisters(registers, 0x50);
+    copyRegisters(registers, 0x20);
     exceptionDump(registers);
     timer_wait(36);
 }

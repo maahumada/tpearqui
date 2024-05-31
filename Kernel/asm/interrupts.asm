@@ -28,6 +28,9 @@ EXTERN updateRegistersFromException
 SECTION .text
 
 %macro pushState 0
+mov rax, 0xFAFAFAFAFAFAFAFA
+
+mov r11, 0xFEDEFEDEFEDEFEDE
 	push rax
 	push rbx
 	push rcx
@@ -146,6 +149,7 @@ _irq128Handler:
 
 ;Zero Division Exception
 _exception00Handler:
+	pushState
 	mov rdi, errorstr00
 	mov rsi, color
 	call puts
@@ -157,21 +161,24 @@ _exception00Handler:
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
+	popState
 	iretq
 
 ;Invalid OPCode Exception
 _exception06Handler:
+	pushState
 	mov rdi, errorstr06
 	mov rsi, color
 	call puts
 	call print
 	call getStackBase
-	
+
 	call updateRegistersFromException
 
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
+	popState
 	iretq
 
 haltcpu:
