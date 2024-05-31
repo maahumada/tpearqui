@@ -22,6 +22,7 @@ EXTERN syscallDispatcher
 EXTERN puts
 EXTERN print
 EXTERN getStackBase
+EXTERN updateRegistersFromException
 
 
 SECTION .text
@@ -150,6 +151,9 @@ _exception00Handler:
 	call puts
 	call print
 	call getStackBase
+
+	call updateRegistersFromException
+
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
@@ -162,6 +166,9 @@ _exception06Handler:
 	call puts
 	call print
 	call getStackBase
+	
+	call updateRegistersFromException
+
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
