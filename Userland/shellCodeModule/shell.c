@@ -2,7 +2,7 @@
 #include <syscall.h>
 #include <stdint.h>
 #include <strings.h>
-#include <eliminator.h> 
+#include <eliminator.h>
 
 #define ENTER '\n'
 #define BACKSPACE '\b'
@@ -195,7 +195,8 @@ void callCommand(int i) {
 }
 
 
-int main() {
+int mainShell() {
+	clear();
 	while(1){
 		printPrompt();
 		// Get keyboard input
