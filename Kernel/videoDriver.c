@@ -174,12 +174,14 @@ void zoomIn(){
 	blackOut();
 	if(scale < 4) scale++;
 	else puts("MAX ZOOM REACHED\n", 0xFF0000);
+	print();
 }
 
 void zoomOut(){
 	blackOut();
 	if(scale > 1) scale--;
 	else puts("MIN ZOOM REACHED\n", 0xFF0000);
+	print();
 }
 
 void putSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t size){
