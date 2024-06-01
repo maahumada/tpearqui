@@ -50,11 +50,28 @@ static void getData(){
 static void instructions(){
 	puts("\n ", 0x00);
 	puts(name1, PLAYER_1_COLOR);
-	puts(" plays with:\n A: left\n W: up\n D: right\n S:down\n", PLAYER_1_COLOR);
+	puts(" Plays With:\n", PLAYER_1_COLOR);
+	puts(" W: ", 0xFFFFFF);
+	puts("up\n", PLAYER_1_COLOR);
+	puts(" A: ", 0xFFFFFF);
+	puts("left\n", PLAYER_1_COLOR);
+	puts(" S: ", 0xFFFFFF);
+	puts("down\n", PLAYER_1_COLOR);
+	puts(" D: ", 0xFFFFFF);
+	puts("right\n", PLAYER_1_COLOR);
+
 	if(players == 2){
-		puts("\n", 0x00);
+		puts("\n ", 0x00);
 		puts(name2, PLAYER_2_COLOR);
-		puts(" plays with:\n J: left\n I: up\n L: right\n K:down\n", PLAYER_2_COLOR);
+		puts(" Plays With:\n", PLAYER_2_COLOR);
+		puts(" I: ", 0xFFFFFF);
+		puts("up\n", PLAYER_2_COLOR);
+		puts(" J: ", 0xFFFFFF);
+		puts("left\n", PLAYER_2_COLOR);
+		puts(" K: ", 0xFFFFFF);
+		puts("down\n", PLAYER_2_COLOR);
+		puts(" L: ", 0xFFFFFF);
+		puts("right\n", PLAYER_2_COLOR);
 	}
 	printScreen();
 	sleep(41); 
@@ -62,7 +79,6 @@ static void instructions(){
 
 static void menu(){
     puts("ELIMINATOR\n", 0xFF0000);
-	puts("----------\n\n", 0xFF0000);
     printScreen();
 	sleep(9);
     
@@ -117,13 +133,16 @@ static void nextGame() {
 	clearInput();
 
 	if(players == 2) {
+		puts(" SCORE: \n", 0xFFFFFF);
+		puts("  ", 0x000000);
 		puts(name1, 0x00FF00);
 		puts(": ", 0x00FF00);
 		char wins1str[20] = { 0 };
 		numToStr(player1Wins, wins1str);
 		puts(wins1str, 0xFF0000);
 		puts("\n", 0x000000);
-		
+
+		puts("  ", 0x000000);
 		puts(name2, 0x0000FF);
 		puts(": ", 0x0000FF);
 		char wins2str[20] = { 0 };
@@ -134,7 +153,14 @@ static void nextGame() {
 		sleep(30);
 	}
 	if(settingsFlag == 0) {
-		puts("Press [ENTER] to play again or any other key to change settings or quit\n", 0xFF0000);
+
+		puts("\n Press ", 0xFFFFFF);
+		puts("[ENTER]", 0x00FF00);
+		puts(" to play again\n", 0xFFFFFF);
+
+		puts(" Press ", 0xFFFFFF);
+		puts("ANY OTHER KEY", 0x00FF00);
+		puts(" to go back to the main menu of the game\n", 0xFFFFFF);
 		printScreen();
 		uint8_t c;
 		getChar(&c);
@@ -144,8 +170,19 @@ static void nextGame() {
 		} 
 	} 
 	clear();
-	puts("Press [E] to exit game\n", 0xFF0000);
-	puts("Press [S] to save default settings or any other key to play\n", 0xFF0000);
+	puts("\n Press ", 0xFFFFFF);
+	puts("[E]", 0x00FF00);
+	puts(" to exit game\n", 0xFFFFFF);
+
+	puts(" Press ", 0xFFFFFF);
+	puts("[S]", 0x00FF00);
+	puts(" to save default settings and play again\n", 0xFFFFFF);
+
+
+	puts(" Press ", 0xFFFFFF);
+	puts("ANY OTHER KEY", 0x00FF00);
+	puts(" to reset settings and play again\n", 0xFFFFFF);
+
 	printScreen();
 	uint8_t c2;
 	getChar(&c2);
@@ -182,6 +219,7 @@ static void lostPlayer1(){
 		puts(scoreStr, 0xFF0000);
 		puts("\n", 0xFF0000);
 	} else {
+		puts(" ", 0x000000);
 		puts(name2, 0x0000FF);
 		puts(" wins\n", 0xFF0000);
 	}
@@ -192,6 +230,7 @@ static void lostPlayer1(){
 static void lostPlayer2(){
 	if(players == 2) player1Wins++;
     blackOut();
+	puts(" ", 0x000000);
 	puts(name1, 0xFF0000);
     puts(" wins\n", 0xFF0000);
     printScreen();
