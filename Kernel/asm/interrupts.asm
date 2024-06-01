@@ -28,9 +28,6 @@ EXTERN updateRegistersFromException
 SECTION .text
 
 %macro pushState 0
-mov rax, 0xFAFAFAFAFAFAFAFA
-
-mov r11, 0xFEDEFEDEFEDEFEDE
 	push rax
 	push rbx
 	push rcx
