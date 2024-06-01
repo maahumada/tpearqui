@@ -71,16 +71,24 @@ void hex_to_ascii(uint64_t hex, char *ascii) {
 void dump() {
 	uint64_t registers[REGISTERS_DIM];
 	getRegisters(registers);
-	for (int i = 0; i < REGISTERS_DIM; i++) {
-		puts(register_names[i], 0xeb6d3f);
-		puts("0x", 0xFFFFFF);
-		char str[100];
-		hex_to_ascii(registers[REGISTERS_DIM-1-i], str);
-		puts(str, 0xFFFFFF);
-		if(i % 2 == 1) puts("\n", 0x000000);
-		else puts("  ", 0x000000);
+	int flag = 0;
+	for(int i = 0; i< REGISTERS_DIM; i++) {
+		if (registers[i] != 0) flag = 1;
 	}
-	puts("\n", 0x000000);
+	if(flag == 0) {
+		puts("No saved registers. Press CTRL + R to save them when desired.\n", 0xeb6d3f);
+	} else {
+		for (int i = 0; i < REGISTERS_DIM; i++) {
+			puts(register_names[i], 0xeb6d3f);
+			puts("0x", 0xFFFFFF);
+			char str[100];
+			hex_to_ascii(registers[REGISTERS_DIM-1-i], str);
+			puts(str, 0xFFFFFF);
+			if(i % 2 == 1) puts("\n", 0x000000);
+			else puts("  ", 0x000000);
+		}
+		puts("\n", 0x000000);
+	}
 	printScreen();
 }
 

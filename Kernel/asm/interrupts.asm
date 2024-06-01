@@ -158,10 +158,11 @@ _exception00Handler:
 
 	call updateRegistersFromException
 
+	popState
+
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
-	popState
 	iretq
 
 ;Invalid OPCode Exception
@@ -175,10 +176,11 @@ _exception06Handler:
 
 	call updateRegistersFromException
 
+	popState
+
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
-	popState
 	iretq
 
 haltcpu:

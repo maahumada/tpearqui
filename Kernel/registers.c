@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <videoDriver.h>
 #include <time.h>
+#include <keyboardDriver.h>
 
 #define REGISTERS_DIM 17
 
@@ -11,9 +12,12 @@ void updateRegisters() { // CTRL + R
 }
 
 void updateRegistersFromException() { // triggered with exceptions
-    copyRegisters(registers, 0x20);
+    copyRegisters(registers, 0x30);
     exceptionDump(registers);
-    timer_wait(36);
+    puts("\nPress ANY KEY to continue\n", 0xFF0000);
+    print();
+    char c;
+    getChar(&c);
 }
 
 void getRegisters(uint64_t* arr) {
