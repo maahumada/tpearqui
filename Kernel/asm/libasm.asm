@@ -53,9 +53,8 @@ readKeyPol:
 copyRegisters:
 	push rbp
 	mov rbp, rsp
-
+	
 	add rsp, rsi
-
 	mov rbx, 0
 
 .L1:

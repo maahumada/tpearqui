@@ -48,70 +48,73 @@ static void getData(){
 }
 
 static void instructions(){
-	puts("\n ", 0x00);
-	puts(name1, PLAYER_1_COLOR);
-	puts(" Plays With:\n", PLAYER_1_COLOR);
-	puts(" W: ", 0xFFFFFF);
-	puts("up\n", PLAYER_1_COLOR);
-	puts(" A: ", 0xFFFFFF);
-	puts("left\n", PLAYER_1_COLOR);
-	puts(" S: ", 0xFFFFFF);
-	puts("down\n", PLAYER_1_COLOR);
-	puts(" D: ", 0xFFFFFF);
-	puts("right\n", PLAYER_1_COLOR);
-
-	if(players == 2){
 		puts("\n ", 0x00);
-		puts(name2, PLAYER_2_COLOR);
-		puts(" Plays With:\n", PLAYER_2_COLOR);
-		puts(" I: ", 0xFFFFFF);
-		puts("up\n", PLAYER_2_COLOR);
-		puts(" J: ", 0xFFFFFF);
-		puts("left\n", PLAYER_2_COLOR);
-		puts(" K: ", 0xFFFFFF);
-		puts("down\n", PLAYER_2_COLOR);
-		puts(" L: ", 0xFFFFFF);
-		puts("right\n", PLAYER_2_COLOR);
-	}
-	printScreen();
-	sleep(41); 
+		puts(name1, PLAYER_1_COLOR);
+		puts(" Plays With:\n", PLAYER_1_COLOR);
+		puts(" W: ", 0xFFFFFF);
+		puts("up\n", PLAYER_1_COLOR);
+		puts(" A: ", 0xFFFFFF);
+		puts("left\n", PLAYER_1_COLOR);
+		puts(" S: ", 0xFFFFFF);
+		puts("down\n", PLAYER_1_COLOR);
+		puts(" D: ", 0xFFFFFF);
+		puts("right\n", PLAYER_1_COLOR);
+
+		if(players == 2){
+			puts("\n ", 0x00);
+			puts(name2, PLAYER_2_COLOR);
+			puts(" Plays With:\n", PLAYER_2_COLOR);
+			puts(" I: ", 0xFFFFFF);
+			puts("up\n", PLAYER_2_COLOR);
+			puts(" J: ", 0xFFFFFF);
+			puts("left\n", PLAYER_2_COLOR);
+			puts(" K: ", 0xFFFFFF);
+			puts("down\n", PLAYER_2_COLOR);
+			puts(" L: ", 0xFFFFFF);
+			puts("right\n", PLAYER_2_COLOR);
+		}
+		printScreen();
+		sleep(41); 
 }
 
 static void menu(){
-    puts("ELIMINATOR\n", 0xFF0000);
+    puts("                        - ELIMINATOR -\n", 0xFF0000);
     printScreen();
-	sleep(9);
+		sleep(9);
     
-	if(settingsFlag) {
-		speed = 0;
-		players = 0;
-		while(speed < 1 || speed > 10){
-			puts("SPEED (1-10): ", 0xFF0000);
-			printScreen();
-			getData();
-			speed = strtoint(buffer);
-		}
+		if(settingsFlag) {
+				speed = 0;
+				players = 0;
+				player1Wins = 0;
+				player2Wins = 0;
 
-		while(players < 1 || players > 2){
-			puts("PLAYERS (1-2): ", 0xFF0000);
-			printScreen();
-			getData();
-			players = strtoint(buffer);
-		}
+				while(speed < 1 || speed > 10){
+					puts("SPEED (1-10): ", 0xFF0000);
+					printScreen();
+					getData();
+					speed = strtoint(buffer);
+				}
 
-		
-		puts("PLAYER 1's NAME: ", 0xFF0000);
-		printScreen();
-		getData();
-		strcpy(name1, buffer);
-		
-		if(players == 2){
-			puts("PLAYER 2's NAME: ", 0xFF0000);
-			printScreen();
-			getData();
-			strcpy(name2, buffer);
+				while(players < 1 || players > 2){
+					puts("PLAYERS (1-2): ", 0xFF0000);
+					printScreen();
+					getData();
+					players = strtoint(buffer);
+				}
+
+
+				puts("PLAYER 1's NAME: ", 0xFF0000);
+				printScreen();
+				getData();
+				strcpy(name1, buffer);
+
+				if(players == 2){
+					puts("PLAYER 2's NAME: ", 0xFF0000);
+					printScreen();
+					getData();
+					strcpy(name2, buffer);
+				}
 		}
-	}
 
     printScreen();
 
@@ -121,10 +124,10 @@ static void menu(){
 }
 
 static void clearInput(){
-	uint8_t c = 1;
-	while(c){
-		getLastPressed(&c);
-	}
+		uint8_t c = 1;
+		while(c){
+				getLastPressed(&c);
+		}
 }
 
 static void nextGame() {
@@ -134,7 +137,7 @@ static void nextGame() {
 
 	if(players == 2) {
 		puts(" SCORE: \n", 0xFFFFFF);
-		puts("  ", 0x000000);
+		puts("  - ", 0x000000);
 		puts(name1, 0x00FF00);
 		puts(": ", 0x00FF00);
 		char wins1str[20] = { 0 };
@@ -142,7 +145,7 @@ static void nextGame() {
 		puts(wins1str, 0xFF0000);
 		puts("\n", 0x000000);
 
-		puts("  ", 0x000000);
+		puts("  - ", 0x000000);
 		puts(name2, 0x0000FF);
 		puts(": ", 0x0000FF);
 		char wins2str[20] = { 0 };
@@ -198,14 +201,13 @@ static void nextGame() {
 		player2Wins = 0;
 		settingsFlag = 1;
 	}
-
 	eliminator();
 }
 
 static void tie(){
-    blackOut();
-    puts("It's a tie!", 0xFF0000);
-    printScreen();
+  blackOut();
+  puts("It's a tie!", 0xFF0000);
+  printScreen();
 	nextGame();
 }
 
@@ -261,81 +263,81 @@ void clearOccupied(){
 }
 
 void eliminator() {
-	clearOccupied();
+		clearOccupied();
     clearScreen();
     menu();
     clearScreen();
     setBorder();
-    //arranca el juego
+		score = 0;
     uint8_t lastKeyPlayer1 = 's', lastKeyPlayer2 = 'i';
     int x1 = WIDTH / 2, y1 = START_OFFSET, x2 = WIDTH / 2 + 1, y2 = HEIGHT - START_OFFSET;
     uint8_t finished = 0;
     while(1){
         // Check Tie
         if(occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
-			makeBeep();
+						makeBeep();
             tie();
             finished = 1;
         }
         // Check Player 1 loses
         if(occupied[y1][x1] != 0) { 
-			makeBeep();
+						makeBeep();
             lostPlayer1();
             finished = 1;
         }
         // Check Player 2 los
         if(occupied[y2][x2] != 0) {
-			makeBeep();
+						makeBeep();
             lostPlayer2();
             finished = 1;
         }
 
-		if(finished)
-			break;
+				if(finished)
+					break;
 
 		
-		// Update player 1 position
-        occupied[y1][x1] = 1;
-        putSquare(PLAYER_1_COLOR, x1 * SIZE, y1 * SIZE, SIZE);
-        
-		// Update player 2 position
-		if(players == 2){
-			occupied[y2][x2] = 1;
-			putSquare(PLAYER_2_COLOR, x2 * SIZE, y2 * SIZE, SIZE);
-		} 
+				// Update player 1 position
+    		occupied[y1][x1] = 1;
+    		putSquare(PLAYER_1_COLOR, x1 * SIZE, y1 * SIZE, SIZE);
+
+				// Update player 2 position
+				if(players == 2){
+					occupied[y2][x2] = 1;
+					putSquare(PLAYER_2_COLOR, x2 * SIZE, y2 * SIZE, SIZE);
+				} 
 		
-        //Get keyboard inputs
-        uint8_t c = 1;
-        while(c) {
-            getLastPressed(&c);
-            if(c >= 'A' && c <= 'Z') c = c - 'A' + 'a';
-            switch(c) {
-                case 'w': 
-					lastKeyPlayer1 = (lastKeyPlayer1 == 's') ? lastKeyPlayer1 : c;
-					break;
-                case 'a': 
-					lastKeyPlayer1 = (lastKeyPlayer1 == 'd') ? lastKeyPlayer1 : c;
-					break;
-				case 's':
-					lastKeyPlayer1 = (lastKeyPlayer1 == 'w') ? lastKeyPlayer1 : c;
-					break;
-				case 'd':
-					lastKeyPlayer1 = (lastKeyPlayer1 == 'a') ? lastKeyPlayer1 : c;
-					break;
-                case 'i': 
-					lastKeyPlayer2 = (lastKeyPlayer2 == 'k') ? lastKeyPlayer2 : c;
-					break;
-                case 'j': 
-					lastKeyPlayer2 = (lastKeyPlayer2 == 'l') ? lastKeyPlayer2 : c;
-					break;
-				case 'k':
-					lastKeyPlayer2 = (lastKeyPlayer2 == 'i') ? lastKeyPlayer2 : c;
-					break; 
-                case 'l':
-					lastKeyPlayer2 = (lastKeyPlayer2 == 'j') ? lastKeyPlayer2 : c;
-					break; 
-            }
-        }
+    		//Get keyboard inputs
+    		uint8_t c = 1;
+    		while(c) {
+    		    getLastPressed(&c);
+    		    if(c >= 'A' && c <= 'Z') c = c - 'A' + 'a';
+    		    switch(c) {
+    		        case 'w': 
+									lastKeyPlayer1 = (lastKeyPlayer1 == 's') ? lastKeyPlayer1 : c;
+									break;
+    		        case 'a': 
+									lastKeyPlayer1 = (lastKeyPlayer1 == 'd') ? lastKeyPlayer1 : c;
+									break;
+								case 's':
+									lastKeyPlayer1 = (lastKeyPlayer1 == 'w') ? lastKeyPlayer1 : c;
+									break;
+								case 'd':
+									lastKeyPlayer1 = (lastKeyPlayer1 == 'a') ? lastKeyPlayer1 : c;
+									break;
+    						case 'i': 
+									lastKeyPlayer2 = (lastKeyPlayer2 == 'k') ? lastKeyPlayer2 : c;
+									break;
+    						case 'j': 
+									lastKeyPlayer2 = (lastKeyPlayer2 == 'l') ? lastKeyPlayer2 : c;
+									break;
+								case 'k':
+									lastKeyPlayer2 = (lastKeyPlayer2 == 'i') ? lastKeyPlayer2 : c;
+									break; 
+    		        case 'l':
+									lastKeyPlayer2 = (lastKeyPlayer2 == 'j') ? lastKeyPlayer2 : c;
+									break; 
+    		    }
+    		}
 
         // Move player 1 
         switch(lastKeyPlayer1) {
@@ -372,7 +374,7 @@ void eliminator() {
             }
         }
 
-		score++;
+				score++;
 			
         sleep(11 - speed);
     }     
@@ -380,6 +382,5 @@ void eliminator() {
 
 void startEliminator() {
 	settingsFlag = 1;
-	score = 0;
 	eliminator();
 }

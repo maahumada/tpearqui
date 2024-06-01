@@ -151,12 +151,9 @@ _exception00Handler:
 	mov rsi, color
 	call puts
 	call print
-	call getStackBase
-
 	call updateRegistersFromException
-
 	popState
-
+	call getStackBase
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
@@ -169,12 +166,9 @@ _exception06Handler:
 	mov rsi, color
 	call puts
 	call print
-	call getStackBase
-
 	call updateRegistersFromException
-
 	popState
-
+	call getStackBase
 	mov [rsp + 24], rax
 	mov rax, userland
 	mov [rsp], rax
