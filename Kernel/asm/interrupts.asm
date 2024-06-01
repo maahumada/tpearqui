@@ -155,6 +155,7 @@ _exception00Handler:
 	popState
 	call getStackBase
 	mov [rsp + 24], rax
+	;mov [rsp + 16], DWORD 0x202
 	mov rax, userland
 	mov [rsp], rax
 	iretq
@@ -170,6 +171,7 @@ _exception06Handler:
 	popState
 	call getStackBase
 	mov [rsp + 24], rax
+	;mov [rsp + 16], DWORD 0x202
 	mov rax, userland
 	mov [rsp], rax
 	iretq

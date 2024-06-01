@@ -44,7 +44,7 @@ void hex_to_ascii(uint64_t hex, char *ascii) {
     }
 }
 
-const char* register_names[REGISTERS_DIM] = {"RSP: ", "RIP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RSI: ", "RDI: ", "RBP: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
+const char* register_names[REGISTERS_DIM] = {"RSP: ", "RIP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RBP: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
 
 void exceptionDump() {
 	for (int i = 0; i < REGISTERS_DIM; i++) {
