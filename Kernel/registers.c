@@ -18,6 +18,7 @@ void updateRegistersFromException() { // triggered with exceptions
     print();
     char c;
     getChar(&c);
+    clear();
 }
 
 void getRegisters(uint64_t* arr) {

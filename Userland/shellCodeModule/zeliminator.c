@@ -78,7 +78,7 @@ static void instructions(){
 }
 
 static void menu(){
-    puts("                        - ELIMINATOR -\n", 0xFF0000);
+    puts("                         - ELIMINATOR -\n", 0xFF0000);
     printScreen();
 		sleep(9);
     
@@ -89,27 +89,27 @@ static void menu(){
 				player2Wins = 0;
 
 				while(speed < 1 || speed > 10){
-					puts("SPEED (1-10): ", 0xFF0000);
+					puts(" SPEED (1-10): ", 0xFF0000);
 					printScreen();
 					getData();
 					speed = strtoint(buffer);
 				}
 
 				while(players < 1 || players > 2){
-					puts("PLAYERS (1-2): ", 0xFF0000);
+					puts(" PLAYERS (1-2): ", 0xFF0000);
 					printScreen();
 					getData();
 					players = strtoint(buffer);
 				}
 
 
-				puts("PLAYER 1's NAME: ", 0xFF0000);
+				puts(" PLAYER 1's NAME: ", 0xFF0000);
 				printScreen();
 				getData();
 				strcpy(name1, buffer);
 
 				if(players == 2){
-					puts("PLAYER 2's NAME: ", 0xFF0000);
+					puts(" PLAYER 2's NAME: ", 0xFF0000);
 					printScreen();
 					getData();
 					strcpy(name2, buffer);
@@ -137,7 +137,7 @@ static void nextGame() {
 
 	if(players == 2) {
 		puts(" SCORE: \n", 0xFFFFFF);
-		puts("  - ", 0x000000);
+		puts("  - ", 0xFFFFFF);
 		puts(name1, 0x00FF00);
 		puts(": ", 0x00FF00);
 		char wins1str[20] = { 0 };
@@ -145,7 +145,7 @@ static void nextGame() {
 		puts(wins1str, 0xFF0000);
 		puts("\n", 0x000000);
 
-		puts("  - ", 0x000000);
+		puts("  - ", 0xFFFFFF);
 		puts(name2, 0x0000FF);
 		puts(": ", 0x0000FF);
 		char wins2str[20] = { 0 };

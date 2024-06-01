@@ -13,5 +13,6 @@ void zeroDivisionExceptionHandler();
 void invalidOpCodeExceptionHandler();
 void printImage(uint64_t x, uint64_t y);
 void print();
+void clear();
 
 #endif
