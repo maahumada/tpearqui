@@ -17,8 +17,8 @@
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
-char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image", "piano", "mandelbrot"};
-char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art", "playeble piano", "mandelbrot calculation"};
+char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "config", "dump", "eliminator", "exception00", "exception06", "help", "image", "mandelbrot", "piano", "time", "zoom-in", "zoom-out"};
+char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "set username", "shows registers status", "starts eliminator", "triggers exception 0x00", "triggers exception 0x06", "shows commands", "inspirational art", "mandelbrot calculation", "playeble piano", "shows time", "increases text size", "decreases text size"};
 static char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
@@ -27,21 +27,21 @@ static char buffer[BUFFER_SIZE];
 static uint64_t bufferPosition = 0;
 
 static char *commands[COMMANDS_DIM] = {
-	"clear",
-	"dump",
-	"eliminator",
-	"help",
-	"time",
-	"zoom-in",
-	"zoom-out",
-	"",
-	"config",
-	"exception00",
-	"exception06",
-	"image",
-	"ls",
-	"piano",
-	"mandelbrot"
+	"clear", // 0 
+	"config", // 1
+	"dump", // 2
+	"eliminator", // 3
+	"exception00", // 4
+	"exception06", // 5
+	"help", // 6
+	"image", // 7
+	"ls", // 8
+	"mandelbrot", // 9
+	"piano", // 10
+	"time", // 11
+	"zoom-in", // 12
+	"zoom-out", // 13
+	"" // 14
 };
 
 char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
@@ -316,47 +316,47 @@ void callCommand(int i) {
 			clear(); 
 			break;
 		case 1: 
-			dump();
-			break;
-		case 2: 
-			startEliminator();
-			break;
-		case 3: 
-			help();
-			break;
-		case 4: 
-			time();
-			break;
-		case 5:
-			zoomIn();
-			break;
-		case 6: 
-			zoomOut();
-			break;
-		case 7:
-			noCommand();
-			break;
-		case 8:
 			config();
 			break;
-		case 9:
+		case 2: 
+			dump();
+			break;
+		case 3: 
+			startEliminator();
+			break;
+		case 4: 
 			exception00Tester();
 			break;
-		case 10:
+		case 5: 
 			exception06Tester();
 			break;
-		case 11:
+		case 6:
+			help();
+			break;
+		case 7: 
 			image();
 			break;
-		case 12:
+		case 8:
 			list();
 			break;
-		case 13:
-			piano();
-      break;
-    case 14:
+		case 9:
 			mandelbrot();
 			break;
+		case 10:
+			piano();
+			break;
+		case 11:
+			time();
+			break;
+		case 12:
+			zoomIn();
+			break;
+		case 13:
+			zoomOut();
+     	 	break;
+		case 14:
+			noCommand();
+     	 	break;
 	}
 }
 
