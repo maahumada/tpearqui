@@ -14,5 +14,8 @@ void invalidOpCodeExceptionHandler();
 void printImage(uint64_t x, uint64_t y);
 void print();
 void clear();
+uint64_t getWidth();
+uint64_t getHeight();
+void blackOut();
 
 #endif

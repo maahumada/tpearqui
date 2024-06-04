@@ -9,6 +9,7 @@
 #define INTERRUPS_H_
 
 #include <idtLoader.h>
+#include <stdint.h>
 
 void _irq00Handler(void);
 void _irq01Handler(void);
@@ -35,5 +36,7 @@ void picSlaveMask(uint8_t mask);
 void haltcpu(void);
 
 void saveAndCopyRegisters(uint64_t* arr);
+
+void copyRegisters(uint64_t* arr);
 
 #endif /* INTERRUPS_H_ */

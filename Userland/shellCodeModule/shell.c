@@ -12,9 +12,9 @@
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
-const char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
-const char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art"};
-static const char * notfound = "Command not found\n";
+char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
+char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art"};
+static char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
 	
@@ -36,7 +36,7 @@ static char *commands[COMMANDS_DIM] = {
 	"image"
 };
 
-const char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
+char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
  
 void printPrompt(){
 	puts(username, 0x00FF00);

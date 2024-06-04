@@ -6,6 +6,7 @@ uint64_t read(char* buffer, uint64_t count);
 void getChar(uint8_t* character);
 void getLastPressed(uint8_t* character);
 void keyboard_handler();
+
 static uint8_t const spanish_keyboard_layout[][3] = {
     {1}, // Happy smile
     {0}, // Esc
@@ -20,7 +21,7 @@ static uint8_t const spanish_keyboard_layout[][3] = {
     {'9', ')'},
     {'0', '='},
     {'\'', '?', '\\'},
-    {'¿', '¡'},
+    {0}, //{'¿', '¡'},
     {'\b', '\b', '\b'},
     {'\t', '\t', '\t'},
     {'q', 'Q', '@'},
@@ -33,7 +34,7 @@ static uint8_t const spanish_keyboard_layout[][3] = {
     {'i', 'I'},
     {'o', 'O'},
     {'p', 'P'},
-    {0xB4, '¨'},
+    {0}, //{0xB4, '¨'},
     {'+', '*', '~'},
     {'\n', '\n'},
     {0}, // LCtrl
@@ -46,7 +47,7 @@ static uint8_t const spanish_keyboard_layout[][3] = {
     {'j', 'J'},
     {'k', 'K'},
     {'l', 'L'},
-    {'ñ', 'Ñ'},
+    {0}, //{'ñ', 'Ñ'},
     {'{', '[', '^'},
     {0}, // IDK
     {0}, // LShift

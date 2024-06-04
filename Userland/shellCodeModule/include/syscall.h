@@ -7,6 +7,8 @@ extern void puts(char * str, uint32_t hexacolor);
 extern void read(char * buffer, uint64_t count);
 extern void printScreen();
 extern void getChar();
+extern void putChar();
+extern void removeChar();
 extern void getTimeString(char* buffer);
 extern void zoomInScreen();
 extern void zoomOutScreen();

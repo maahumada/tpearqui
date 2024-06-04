@@ -15,5 +15,6 @@
 #define START_DELAY 36
 
 void startEliminator();
+void eliminator();
 
 #endif

@@ -9,7 +9,9 @@
     "naiveconsole.h": "c",
     "strings.h": "c",
     "eliminator.h": "c",
-    "keyboarddriver.h": "c"
+    "keyboarddriver.h": "c",
+    "interrupts.h": "c",
+    "speakerdriver.h": "c"
   },
   "workbench.colorTheme": "Default Dark+"
 }

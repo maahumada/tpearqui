@@ -2,33 +2,14 @@
 #include <videoDriver.h>
 #include <time.h>
 #include <keyboardDriver.h>
+#include <registers.h>
 
 #define REGISTERS_DIM 17
 
 static uint64_t registers[REGISTERS_DIM];
+const char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
 
-void updateRegisters() { // CTRL + R
-    saveAndCopyRegisters(registers);
-}
-
-void updateRegistersFromException() { // triggered with exceptions
-    copyRegisters(registers);
-    exceptionDump(registers);
-    puts("\nPress ANY KEY to continue\n", 0xFF0000);
-    print();
-    char c;
-    getChar(&c);
-    clear();
-}
-
-void getRegisters(uint64_t* arr) {
-    for(int i = 0; i<REGISTERS_DIM; i++) {
-        arr[i] = registers[i];
-    }
-}
-
-
-void hex_to_ascii(uint64_t hex, char *ascii) {
+static void hex_to_ascii(uint64_t hex, char *ascii) {
     // Character array for hex digits
     const char hex_digits[] = "0123456789ABCDEF";
     int i;
@@ -45,9 +26,7 @@ void hex_to_ascii(uint64_t hex, char *ascii) {
     }
 }
 
-const char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
-
-void exceptionDump() {
+static void exceptionDump() {
 	for (int i = 0; i < REGISTERS_DIM; i++) {
 		puts(register_names[i], 0xeb6d3f);
 		puts("0x", 0xFF0000);
@@ -59,4 +38,24 @@ void exceptionDump() {
 	}
 	puts("\n", 0x000000);
 	print();
+}
+
+void updateRegisters() { // CTRL + R
+    saveAndCopyRegisters(registers);
+}
+
+void updateRegistersFromException() { // triggered with exceptions
+    copyRegisters(registers);
+    exceptionDump(registers);
+    puts("\nPress ANY KEY to continue\n", 0xFF0000);
+    print();
+    uint8_t c;
+    getChar(&c);
+    clear();
+}
+
+void getRegisters(uint64_t* arr) {
+    for(int i = 0; i<REGISTERS_DIM; i++) {
+        arr[i] = registers[i];
+    }
 }

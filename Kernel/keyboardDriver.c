@@ -1,13 +1,15 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>
 #include <interrupts.h>
+#include <registers.h>
 
 #define LETTER_WIDTH 8
 #define LINE_HEIGHT 12
 
 extern uint8_t readKeyPol();
 
-static char keyMapRow = 0;
+static uint64_t keyMapRow = 0;
+
 #define LEFT_SHIFT  0x2A
 #define RIGHT_SHIFT 0x36
 #define ALT 0x38
@@ -46,7 +48,7 @@ void numToStr(uint64_t num, char* buffer){
 	*(buffer+digits) = 0;
 }
 
-static char stdInBuffer[1000];
+static uint8_t stdInBuffer[1000];
 static uint64_t stdInBufferPosition;
 static char control = 0;
 static char capsLock = 0;

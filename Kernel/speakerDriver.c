@@ -4,11 +4,11 @@
 #include <interrupts.h>
 
 //Play sound using built-in speaker
-static void play_sound(uint32_t nFrequence) {
+void play_sound(uint32_t nFrequence) {
  	uint32_t Div;
  	uint8_t tmp;
  
-        //Set the PIT to the desired frequency
+  //Set the PIT to the desired frequency
  	Div = 1193180 / nFrequence;
  	outb(0x43, 0xb6);
  	outb(0x42, (uint8_t) (Div) );
@@ -21,14 +21,14 @@ static void play_sound(uint32_t nFrequence) {
  	}
  }
  
- //make it shut up
- static void nosound() {
+//make it shut up
+void nosound() {
  	uint8_t tmp = inb(0x61) & 0xFC;
  	outb(0x61, tmp);
  }
 
  
- //Make a beep
+//Make a beep
 void beep(){
     play_sound(350);
     timer_wait(6);

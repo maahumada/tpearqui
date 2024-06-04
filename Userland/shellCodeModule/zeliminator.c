@@ -132,7 +132,7 @@ static void clearInput(){
 
 static void nextGame() {
 	sleep(50);
-	clear();
+	clearScreen();
 	clearInput();
 
 	if(players == 2) {
@@ -172,7 +172,7 @@ static void nextGame() {
 			return;
 		} 
 	} 
-	clear();
+	clearScreen();
 	puts("\n Press ", 0xFFFFFF);
 	puts("[E]", 0x00FF00);
 	puts(" to exit game\n", 0xFFFFFF);
