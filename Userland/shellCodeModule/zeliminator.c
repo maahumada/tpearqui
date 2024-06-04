@@ -77,7 +77,7 @@ static void instructions(){
 }
 
 static void menu(){
-  puts("                         - ELIMINATOR -\n", 0xFF0000);
+  puts("- ELIMINATOR -\n", 0xFF0000);
   printScreen();
 	sleep(9);
   
@@ -264,7 +264,7 @@ void eliminator() {
   uint8_t finished = 0;
   while(1){
     // Check Tie
-    if(occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
+    if(players == 2 && occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
 			makeBeep(310, 5);
       tie();
       finished = 1;
@@ -276,7 +276,7 @@ void eliminator() {
       finished = 1;
     }
     // Check Player 2 los
-    if(occupied[y2][x2] != 0) {
+    if(players == 2 && occupied[y2][x2] != 0) {
 			makeBeep(310, 5);
       lostPlayer2();
       finished = 1;
