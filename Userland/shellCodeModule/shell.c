@@ -296,12 +296,12 @@ void mandelbrot(){
       /* compute  pixel color and write it to file */
       if (k >= maxiter) {
         /* interior */
-				putSquare(0xFFFFFF, i, j, 1);
+				putSquare(0x000000, i, j, 1);
       }
       else {
         /* exterior */
         uint32_t color = (k >> 16) | (k >> 8) | k; // Grayscale color based on iteration count
-        putSquare(color * 10 + 0x2F0000, i, j, 1);
+        putSquare(color * 12, i, j, 1);
       };
     }
   }
