@@ -8,7 +8,7 @@
 #define ENTER '\n'
 #define BACKSPACE '\b'
 
-#define COMMANDS_DIM 13
+#define COMMANDS_DIM 14
 #define HIDDEN_COMMANDS_DIM 2
 #define REGISTERS_DIM 17
 
@@ -39,7 +39,8 @@ static char *commands[COMMANDS_DIM] = {
 	"exception00",
 	"exception06",
 	"image",
-	"ls"
+	"ls",
+	"piano",
 };
 
 char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
@@ -180,6 +181,88 @@ void list(){
 	printScreen();
 }
 
+// Define the frequencies for the notes (A4 = 440Hz)
+#define C4  261
+#define D4  294
+#define E4  329
+#define F4  349
+#define G4  392
+#define A4  440
+#define B4  493
+#define C5  523
+
+// Map keys to frequencies
+int getFrequency(char key) {
+    switch (key) {
+        case 'a': return C4;  // C4
+        case 's': return D4;  // D4
+        case 'd': return E4;  // E4
+        case 'f': return F4;  // F4
+        case 'g': return G4;  // G4
+        case 'h': return A4;  // A4
+        case 'j': return B4;  // B4
+        case 'k': return C5;  // C5
+        default: return 0;    // No sound
+    }
+}
+
+void printPiano(char key, uint32_t pressedColor, uint32_t unpressedColor) {
+		clear();
+
+		puts(" - PIANO -\n", 0xFFFFFF);
+		puts(" Press [E] to exit\n", 0xFFFFFF);
+		puts(" A: ", 0x00FFFF);
+		puts("DO / ", (key == 'a') ? pressedColor : unpressedColor);
+		
+		puts("S: ", 0x00FFFF);
+		puts("RE /", (key == 's') ? pressedColor : unpressedColor);
+
+		puts("S: ", 0x00FFFF);
+		puts("MI /", (key == 'd') ? pressedColor : unpressedColor);
+
+		puts("F: ", 0x00FFFF);
+		puts("FA /", (key == 'f') ? pressedColor : unpressedColor);
+		
+		puts("G: ", 0x00FFFF);
+		puts("SOL /", (key == 'g') ? pressedColor : unpressedColor);
+
+		puts("H: ", 0x00FFFF);
+		puts("LA /", (key == 'h') ? pressedColor : unpressedColor);
+
+		puts("J: ", 0x00FFFF);
+		puts("SI /", (key == 'j') ? pressedColor : unpressedColor);
+
+		puts("K: ", 0x00FFFF);
+		puts("DO", (key == 'k') ? pressedColor : unpressedColor);
+
+		printScreen();
+}
+
+void piano() {
+    char key;
+	uint32_t pressedColor = 0xFFFFFF;
+	uint32_t unpressedColor = 0xFF0000;
+
+	printPiano(0, unpressedColor, unpressedColor);
+
+    while (1) {
+        getChar(&key); // Get the pressed key
+		if(key >= 'A' && key <= 'Z') key -= 'A' - 'a';
+		
+		if(key == 'e') {
+			clearScreen();
+			return;
+		}
+		
+        uint32_t frequency = getFrequency(key); // Get the frequency for the key
+        if (frequency > 0) {
+            makeBeep(frequency, 6); // Play the note for 500 ticks (adjust duration as needed)
+        }
+
+		printPiano(key, pressedColor, unpressedColor);
+    }
+}
+
 void callCommand(int i) {
 	switch(i) {
 		case 0: 
@@ -220,6 +303,9 @@ void callCommand(int i) {
 			break;
 		case 12:
 			list();
+			break;
+		case 13:
+			piano();
 			break;
 	}
 }
