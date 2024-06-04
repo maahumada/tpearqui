@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <strings.h>
 #include <eliminator.h> 
+#include <exceptions.h>
 
 #define ENTER '\n'
 #define BACKSPACE '\b'
