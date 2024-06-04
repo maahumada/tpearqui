@@ -18,7 +18,7 @@ extern void clearScreen();
 extern void putSquare(uint32_t hexColor, uint64_t x, uint64_t y, uint64_t size);
 extern void sleep(uint64_t time);
 extern void getLastPressed(uint8_t* character);
-extern void makeBeep();
+extern void makeBeep(uint32_t nFrequence, unsigned long time);
 extern void printImage(uint64_t x, uint64_t y);
 
 #endif

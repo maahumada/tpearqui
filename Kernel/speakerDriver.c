@@ -29,8 +29,8 @@ void nosound() {
 
  
 //Make a beep
-void beep(){
-    play_sound(350);
-    timer_wait(6);
+void beep(uint32_t nFrequence, unsigned long time){
+    play_sound(nFrequence);
+    timer_wait(time);
     nosound();
 }

@@ -56,7 +56,7 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             getLastPressed((uint8_t*)p0);
             break;
         case 0x10:
-            beep();
+            beep(p0, p1);
             break;
         case 0x11:
             printImage(p0, p1);

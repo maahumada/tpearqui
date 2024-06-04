@@ -265,19 +265,19 @@ void eliminator() {
   while(1){
     // Check Tie
     if(occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
-			makeBeep();
+			makeBeep(310, 5);
       tie();
       finished = 1;
     }
     // Check Player 1 loses
     if(occupied[y1][x1] != 0) { 
-			makeBeep();
+			makeBeep(310, 5);
       lostPlayer1();
       finished = 1;
     }
     // Check Player 2 los
     if(occupied[y2][x2] != 0) {
-			makeBeep();
+			makeBeep(310, 5);
       lostPlayer2();
       finished = 1;
     }
