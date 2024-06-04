@@ -34,4 +34,6 @@ void picSlaveMask(uint8_t mask);
 //Termina la ejecución de la cpu.
 void haltcpu(void);
 
+void saveAndCopyRegisters(uint64_t* arr);
+
 #endif /* INTERRUPS_H_ */

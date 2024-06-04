@@ -8,7 +8,8 @@
     "stdint.h": "c",
     "naiveconsole.h": "c",
     "strings.h": "c",
-    "eliminator.h": "c"
+    "eliminator.h": "c",
+    "keyboarddriver.h": "c"
   },
   "workbench.colorTheme": "Default Dark+"
 }

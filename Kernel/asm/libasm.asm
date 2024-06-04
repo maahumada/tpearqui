@@ -1,6 +1,5 @@
 GLOBAL cpuVendor
 GLOBAL readKeyPol
-GLOBAL copyRegisters
 GLOBAL outb
 GLOBAL inb
 
@@ -50,30 +49,6 @@ readKeyPol:
 	pop rbp 		; desarmado stackframe
 	ret 			; en al quedó el caracter
 
-copyRegisters:
-	push rbp
-	mov rbp, rsp
-	
-	add rsp, rsi
-	mov rbx, 0
-
-.L1:
-	cmp rbx, 16
-	je .end
-	mov rax, qword[rsp + 8*rbx]
-	inc rbx
-	mov qword[rdi], rax
-	add rdi, 8
-	jmp .L1
-
-.end:
-	mov rax, [rsp + 8 * 18]
-	mov qword[rdi], rax 
-
-	mov rsp, rbp
-	pop rbp
-  	ret
-
 outb:
 	mov edx, edi
 	mov eax, esi
@@ -84,6 +59,3 @@ inb:
 	mov edx, edi
 	in al, dx ;(in dest, port)
 	ret
-
-
-section .data

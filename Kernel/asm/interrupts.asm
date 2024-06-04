@@ -16,6 +16,9 @@ GLOBAL _irq128Handler
 GLOBAL _exception00Handler
 GLOBAL _exception06Handler
 
+GLOBAL copyRegisters
+GLOBAL saveAndCopyRegisters
+
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
@@ -23,6 +26,7 @@ EXTERN puts
 EXTERN print
 EXTERN getStackBase
 EXTERN updateRegistersFromException
+EXTERN saveRegisters
 
 
 SECTION .text
@@ -84,6 +88,51 @@ SECTION .text
 	iretq
 %endmacro
 
+%macro saveStateDump 0
+	mov [registers+24], rax
+	mov rax, [rsp] 		; Get RIP from ret in stack
+	mov [registers+0], rax
+	mov [registers+8], rsp
+	mov [registers+16], rbp
+	mov [registers+32], rbx
+	mov [registers+40], rcx
+	mov [registers+48], rdx
+	mov [registers+56], rdi
+	mov [registers+64], rsi
+	mov [registers+72], r8
+	mov [registers+80], r9
+	mov [registers+88], r10
+	mov [registers+96], r11
+	mov [registers+104], r12
+	mov [registers+112], r13
+	mov [registers+120], r14
+	mov [registers+128], r15
+%endmacro
+
+%macro saveState 0
+	push rax
+	mov rax, [rsp + 8]
+	mov [registers+0], rax 	; RIP
+	mov rax, [rsp + 8 + 8 * 3]
+	mov [registers+8], rax 	; RSP
+	pop rax
+	
+	mov [registers+16], rbp
+	mov [registers+24], rax
+	mov [registers+32], rbx
+	mov [registers+40], rcx
+	mov [registers+48], rdx
+	mov [registers+56], rdi
+	mov [registers+64], rsi
+	mov [registers+72], r8
+	mov [registers+80], r9
+	mov [registers+88], r10
+	mov [registers+96], r11
+	mov [registers+104], r12
+	mov [registers+112], r13
+	mov [registers+120], r14
+	mov [registers+128], r15
+%endmacro
 
 _hlt:
 	sti
@@ -146,6 +195,7 @@ _irq128Handler:
 
 ;Zero Division Exception
 _exception00Handler:
+	saveState
 	pushState
 	mov rdi, errorstr00
 	mov rsi, color
@@ -162,6 +212,7 @@ _exception00Handler:
 
 ;Invalid OPCode Exception
 _exception06Handler:
+	saveState
 	pushState
 	mov rdi, errorstr06
 	mov rsi, color
@@ -171,15 +222,42 @@ _exception06Handler:
 	popState
 	call getStackBase
 	mov [rsp + 24], rax
-	;mov [rsp + 16], DWORD 0x202
+	mov [rsp + 16], DWORD 0x202
 	mov rax, userland
 	mov [rsp], rax
 	iretq
+
+saveAndCopyRegisters:
+	saveStateDump
+	call copyRegisters
+	ret
 
 haltcpu:
 	cli
 	hlt
 	ret
+
+copyRegisters:
+	push rbp
+	mov rbp, rsp
+	
+	mov rbx, 0
+
+.L1:
+	cmp rbx, 17
+	je .end
+	mov rax, qword[registers+rbx*8]
+	inc rbx
+	mov qword[rdi], rax
+	add rdi, 8
+	jmp .L1
+
+.end:
+	mov qword[rdi], rax 
+
+	mov rsp, rbp
+	pop rbp
+  	ret
 
 SECTION .data
 	errorstr00 db "ERROR: ZERO DIVISION", 10, 0
@@ -191,3 +269,4 @@ SECTION .rodata
 
 SECTION .bss
 	aux resq 1
+	registers resq 17
