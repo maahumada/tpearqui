@@ -8,7 +8,7 @@
 #define ENTER '\n'
 #define BACKSPACE '\b'
 
-#define COMMANDS_DIM 13
+#define COMMANDS_DIM 14
 #define HIDDEN_COMMANDS_DIM 2
 #define REGISTERS_DIM 17
 
@@ -17,8 +17,8 @@
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
-char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
-char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art"};
+char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image", "mandelbrot"};
+char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art", "mandelbrot calculation"};
 static char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
@@ -39,7 +39,8 @@ static char *commands[COMMANDS_DIM] = {
 	"exception00",
 	"exception06",
 	"image",
-	"ls"
+	"ls",
+	"mandelbrot"
 };
 
 char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
@@ -180,6 +181,50 @@ void list(){
 	printScreen();
 }
 
+void mandelbrot(){
+	double xmax = 0.6, ymax = 1.2;
+	double xmin = -1.5, ymin = -1.2;
+	int xres = 1024, yres = 768;
+	double dx=(xmax-xmin)/xres;
+  double dy=(ymax-ymin)/yres;
+	int maxiter = 100;
+
+  double x, y; /* Coordinates of the current point in the complex plane. */
+  double u, v; /* Coordinates of the iterated point. */
+  int i,j; /* Pixel counters */
+  int k; /* Iteration counter */
+  for (j = 0; j < yres; j++) {
+    y = ymax - j * dy;
+    for(i = 0; i < xres; i++) {
+      double u = 0.0;
+      double v= 0.0;
+      double u2 = u * u;
+      double v2 = v*v;
+      x = xmin + i * dx;
+      /* iterate the point */
+      for (k = 1; k < maxiter && (u2 + v2 < 4.0); k++) {
+            v = 2 * u * v + y;
+            u = u2 - v2 + x;
+            u2 = u * u;
+            v2 = v * v;
+      };
+      /* compute  pixel color and write it to file */
+      if (k >= maxiter) {
+        /* interior */
+				putSquare(0xFFFFFF, i, j, 1);
+      }
+      else {
+        /* exterior */
+        uint32_t color = (k >> 16) | (k >> 8) | k; // Grayscale color based on iteration count
+        putSquare(color * 10 + 0x2F0000, i, j, 1);
+      };
+    }
+  }
+	uint8_t c;
+	getChar(&c);
+	clearScreen();
+}
+
 void callCommand(int i) {
 	switch(i) {
 		case 0: 
@@ -220,6 +265,9 @@ void callCommand(int i) {
 			break;
 		case 12:
 			list();
+			break;
+		case 13:
+			mandelbrot();
 			break;
 	}
 }
