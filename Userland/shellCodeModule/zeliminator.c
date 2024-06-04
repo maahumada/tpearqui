@@ -8,11 +8,12 @@ static uint64_t bufferPosition = 0;
 
 #define WIDTH 128
 #define HEIGHT 96
-#define SIZE 8
 #define START_OFFSET 3
 #define PLAYER_1_COLOR 0x00FF00
 #define PLAYER_2_COLOR 0x0000FF
 #define START_DELAY 36
+
+uint64_t size;
 
 static char occupied[HEIGHT][WIDTH];
 
@@ -233,14 +234,14 @@ static void setBorder(){
   for(int i = 0; i < WIDTH; i++){
     occupied[0][i] = 1;
     occupied[HEIGHT - 1][i] = 1;
-		putSquare(0xFF0000, i * SIZE, 0, SIZE);
-		putSquare(0xFF0000, i * SIZE, (HEIGHT - 1) * SIZE, SIZE);
+		putSquare(0xFF0000, i * size, 0, size);
+		putSquare(0xFF0000, i * size, (HEIGHT - 1) * size, size);
   }
   for(int i = 1; i < HEIGHT - 1; i++){
     occupied[i][0] = 1;
     occupied[i][WIDTH - 1] = 1;
-		putSquare(0xFF0000, 0, i * SIZE, SIZE);
-		putSquare(0xFF0000, (WIDTH - 1) * SIZE, i * SIZE, SIZE);
+		putSquare(0xFF0000, 0, i * size, size);
+		putSquare(0xFF0000, (WIDTH - 1) * size, i * size, size);
   }
 }
 
@@ -286,11 +287,11 @@ void eliminator() {
 
 		// Update player 1 position
   	occupied[y1][x1] = 1;
-  	putSquare(PLAYER_1_COLOR, x1 * SIZE, y1 * SIZE, SIZE);
+  	putSquare(PLAYER_1_COLOR, x1 * size, y1 * size, size);
 		// Update player 2 position
 		if(players == 2){
 			occupied[y2][x2] = 1;
-			putSquare(PLAYER_2_COLOR, x2 * SIZE, y2 * SIZE, SIZE);
+			putSquare(PLAYER_2_COLOR, x2 * size, y2 * size, size);
 		} 
 
   	//Get keyboard inputs
@@ -365,6 +366,15 @@ void eliminator() {
 }
 
 void startEliminator() {
+	uint64_t width;
+	getWidth(&width);
+	uint64_t height;
+	getHeight(&height);	
+	if(width / WIDTH < height / HEIGHT){
+		size = width / WIDTH;
+	}else{
+		size = height / HEIGHT;
+	}
 	settingsFlag = 1;
 	eliminator();
 }

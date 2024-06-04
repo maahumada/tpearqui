@@ -15,6 +15,8 @@ GLOBAL sleep
 GLOBAL getLastPressed
 GLOBAL makeBeep
 GLOBAL printImage
+GLOBAL getWidth
+GLOBAL getHeight
 
 
 section .text
@@ -101,5 +103,15 @@ makeBeep:
 
 printImage:
     mov r9, 0x11
+    int 80h
+    ret
+
+getWidth:
+    mov r9, 0x12
+    int 80h
+    ret
+
+getHeight:
+    mov r9, 0x13
     int 80h
     ret

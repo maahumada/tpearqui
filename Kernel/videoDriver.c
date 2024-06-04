@@ -106,6 +106,14 @@ uint64_t getHeight() {
 	return (uint64_t)VBE_mode_info->height;
 }
 
+void getWidthInPointer(uint64_t* num) {
+	*num = (uint64_t)VBE_mode_info->width;
+}
+
+void getHeightInPointer(uint64_t* num) {
+	*num = (uint64_t)VBE_mode_info->height;
+}
+
 void blackOut(){
 	for(int x = 0; x < 1024; x++)
 		for(int y = 0; y < 768; y++)

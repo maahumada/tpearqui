@@ -182,9 +182,11 @@ void list(){
 }
 
 void mandelbrot(){
+	uint64_t xres, yres;
+	getWidth(&xres);
+	getHeight(&yres);
 	double xmax = 0.6, ymax = 1.2;
 	double xmin = -1.5, ymin = -1.2;
-	int xres = 1024, yres = 768;
 	double dx=(xmax-xmin)/xres;
   double dy=(ymax-ymin)/yres;
 	int maxiter = 100;
