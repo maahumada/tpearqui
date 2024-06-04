@@ -7,7 +7,8 @@
 #define ENTER '\n'
 #define BACKSPACE '\b'
 
-#define COMMANDS_DIM 12
+#define COMMANDS_DIM 13
+#define HIDDEN_COMMANDS_DIM 2
 #define REGISTERS_DIM 17
 
 #define IMAGE_X 100
@@ -15,8 +16,8 @@
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
-char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
-char* command_descriptions[COMMANDS_DIM-1] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art"};
+char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
+char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "shows registers status", "starts eliminator", "shows commands", "shows time", "increases text size", "decreases text size", "terminal parameters configuration", "triggers exception 0x00", "triggers exception 0x06", "inspirational art"};
 static char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
@@ -36,7 +37,8 @@ static char *commands[COMMANDS_DIM] = {
 	"config",
 	"exception00",
 	"exception06",
-	"image"
+	"image",
+	"ls"
 };
 
 char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
@@ -96,7 +98,7 @@ void dump() {
 }
 
 void help() {
-	for (int i = 0; i < COMMANDS_DIM-1; i++) {
+	for (int i = 0; i < COMMANDS_DIM-HIDDEN_COMMANDS_DIM; i++) {
 		puts(" - ", 0xFFFFFF);
 		puts(command_names[i], 0xeb6d3f);
 		puts(": ", 0xFFFFFF);
@@ -164,6 +166,12 @@ void exception06Tester(){
 	exception06();
 }
 
+void list(){
+	puts(". .. ", 0x0000FF);
+	puts("ELIMINATOR\n", 0x00FF00);
+	printScreen();
+}
+
 void callCommand(int i) {
 	switch(i) {
 		case 0: 
@@ -201,6 +209,9 @@ void callCommand(int i) {
 			break;
 		case 11:
 			printImage(IMAGE_X, IMAGE_Y);
+			break;
+		case 12:
+			list();
 			break;
 	}
 }
