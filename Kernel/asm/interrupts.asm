@@ -32,6 +32,7 @@ EXTERN saveRegisters
 SECTION .text
 
 %macro pushState 0
+	saveStateDump
 	push rax
 	push rbx
 	push rcx
@@ -68,6 +69,7 @@ SECTION .text
 %endmacro
 
 %macro irqHandlerMaster 1
+	saveState
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
@@ -82,6 +84,7 @@ SECTION .text
 %endmacro
 
 %macro irqHandlerMasterSysCalls 0
+	saveStateDump
 	pushState
 	call syscallDispatcher
 	popState
@@ -226,11 +229,6 @@ _exception06Handler:
 	mov rax, userland
 	mov [rsp], rax
 	iretq
-
-saveAndCopyRegisters:
-	saveStateDump
-	call copyRegisters
-	ret
 
 haltcpu:
 	cli

@@ -41,7 +41,7 @@ static void exceptionDump() {
 }
 
 void updateRegisters() { // CTRL + R
-    saveAndCopyRegisters(registers);
+    copyRegisters(registers);
 }
 
 void updateRegistersFromException() { // triggered with exceptions

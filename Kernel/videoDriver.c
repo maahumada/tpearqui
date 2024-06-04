@@ -202,7 +202,7 @@ void invalidOpCodeExceptionHandler(){
 }
 
 void printImage(uint64_t x, uint64_t y){
-	uint64_t size = 4;
+	uint64_t size = 10;
 	for(int i = 0; i < IMAGE_WIDTH; i++){
 		for(int j = 0; j < IMAGE_HEIGHT; j++){
 			putSquare(image[i][j], i * size + x, j * size + y, size);

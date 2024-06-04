@@ -11,8 +11,8 @@
 #define HIDDEN_COMMANDS_DIM 2
 #define REGISTERS_DIM 17
 
-#define IMAGE_X 100
-#define IMAGE_Y 100
+#define IMAGE_X 0
+#define IMAGE_Y 0
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
@@ -166,6 +166,13 @@ void exception06Tester(){
 	exception06();
 }
 
+void image(){
+	printImage(IMAGE_X, IMAGE_Y);
+	uint8_t c;
+	getChar(&c);
+	clearScreen();
+}
+
 void list(){
 	puts(". .. ", 0x0000FF);
 	puts("ELIMINATOR\n", 0x00FF00);
@@ -208,7 +215,7 @@ void callCommand(int i) {
 			exception06Tester();
 			break;
 		case 11:
-			printImage(IMAGE_X, IMAGE_Y);
+			image();
 			break;
 		case 12:
 			list();
