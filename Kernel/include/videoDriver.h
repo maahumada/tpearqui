@@ -16,6 +16,8 @@ void print();
 void clear();
 uint64_t getWidth();
 uint64_t getHeight();
+void getWidthInPointer(uint64_t* num);
+void getHeightInPointer(uint64_t* num);
 void blackOut();
 
 #endif
