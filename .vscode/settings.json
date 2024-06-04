@@ -11,7 +11,8 @@
     "eliminator.h": "c",
     "keyboarddriver.h": "c",
     "interrupts.h": "c",
-    "speakerdriver.h": "c"
+    "speakerdriver.h": "c",
+    "registers.h": "c"
   },
   "workbench.colorTheme": "Default Dark+"
 }

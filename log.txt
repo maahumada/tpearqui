@@ -74,20 +74,17 @@ nasm -felf64 asm/time.asm -o asm/time.o
 nasm -felf64 asm/interrupts.asm -o asm/interrupts.o
 nasm -felf64 asm/libasm.asm -o asm/libasm.o
 ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o keyboardDriver.o videoDriver.o time.o clock.o irqDispatcher.o speakerDriver.o naiveConsole.o lib.o moduleLoader.o registers.o idtLoader.o syscallDispatcher.o kernel.o asm/time.o asm/interrupts.o asm/libasm.o 
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf  keyboardDriver.o videoDriver.o time.o clock.o irqDispatcher.o speakerDriver.o naiveConsole.o lib.o moduleLoader.o registers.o idtLoader.o syscallDispatcher.o kernel.o asm/time.o asm/interrupts.o asm/libasm.o 
-ld: warning: cannot find entry symbol loader; defaulting to 0000000000100000
 make[1]: Leaving directory '/root/Kernel'
 cd Userland; make all
 make[1]: Entering directory '/root/Userland'
 cd shellCodeModule; make
 make[2]: Entering directory '/root/Userland/shellCodeModule'
 gcc -g -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -T shell.ld _loader.c shell.c zeliminator.c strings.c asm/syscall.o -o ../0000-shell.bin
-gcc -g -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -T shell.ld -Wl,--oformat=elf64-x86-64 _loader.c shell.c zeliminator.c strings.c asm/syscall.o -o ../shell.elf
 make[2]: Leaving directory '/root/Userland/shellCodeModule'
 printf "This is shell data." >> 0001-shellDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-shellDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 2.388e-05 s, 41.9 kB/s
+1 byte (1 B) copied, 2.4095e-05 s, 41.5 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'

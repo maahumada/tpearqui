@@ -19,7 +19,6 @@ int strtoint(const char *str) {
     i++;
   }
   
-
   return toReturn;
 }
 

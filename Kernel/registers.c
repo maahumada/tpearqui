@@ -6,8 +6,8 @@
 
 #define REGISTERS_DIM 17
 
-static uint64_t registers[REGISTERS_DIM];
 const char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
+static uint64_t registers[REGISTERS_DIM];
 
 static void hex_to_ascii(uint64_t hex, char *ascii) {
     // Character array for hex digits

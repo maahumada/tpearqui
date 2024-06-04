@@ -1,7 +1,6 @@
 #include <stdint.h>
 
-void * memset(void * destination, int32_t c, uint64_t length)
-{
+void * memset(void * destination, int32_t c, uint64_t length){
 	uint8_t chr = (uint8_t)c;
 	char * dst = (char*)destination;
 
@@ -11,8 +10,7 @@ void * memset(void * destination, int32_t c, uint64_t length)
 	return destination;
 }
 
-void * memcpy(void * destination, const void * source, uint64_t length)
-{
+void * memcpy(void * destination, const void * source, uint64_t length){
 	/*
 	* memcpy does not support overlapping buffers, so always do it
 	* forwards. (Don't change this without adjusting memmove.)
@@ -37,8 +35,7 @@ void * memcpy(void * destination, const void * source, uint64_t length)
 		for (i = 0; i < length / sizeof(uint32_t); i++)
 			d[i] = s[i];
 	}
-	else
-	{
+	else{
 		uint8_t * d = (uint8_t*)destination;
 		const uint8_t * s = (const uint8_t*)source;
 

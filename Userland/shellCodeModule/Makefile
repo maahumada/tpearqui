@@ -10,7 +10,7 @@ all: $(MODULE)
 
 $(MODULE): $(SOURCES)
 	$(GCC) $(GCCFLAGS) -I./include -T shell.ld _loader.c $(SOURCES) $(OBJECTS_ASM) -o ../$(MODULE)
-	$(GCC) $(GCCFLAGS) -I./include -T shell.ld -Wl,--oformat=elf64-x86-64 _loader.c $(SOURCES) $(OBJECTS_ASM) -o ../shell.elf
+#	$(GCC) $(GCCFLAGS) -I./include -T shell.ld -Wl,--oformat=elf64-x86-64 _loader.c $(SOURCES) $(OBJECTS_ASM) -o ../shell.elf
 
 
 clean:

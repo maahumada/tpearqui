@@ -19,13 +19,13 @@ void play_sound(uint32_t nFrequence) {
   	if (tmp != (tmp | 3)) {
  		outb(0x61, tmp | 3);
  	}
- }
+}
  
 //make it shut up
 void nosound() {
  	uint8_t tmp = inb(0x61) & 0xFC;
  	outb(0x61, tmp);
- }
+}
 
  
 //Make a beep

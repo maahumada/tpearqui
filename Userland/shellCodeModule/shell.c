@@ -10,6 +10,9 @@
 #define COMMANDS_DIM 12
 #define REGISTERS_DIM 17
 
+#define IMAGE_X 100
+#define IMAGE_Y 100
+
 char username[40] = {'u','s','u','a','r','i','o',0};
 
 char* command_names[COMMANDS_DIM-1] = {"clear", "dump", "eliminator", "help", "time", "zoom-in", "zoom-out", "config", "exception00", "exception06", "image"};
@@ -197,7 +200,7 @@ void callCommand(int i) {
 			exception06Tester();
 			break;
 		case 11:
-			printImage(100, 100);
+			printImage(IMAGE_X, IMAGE_Y);
 			break;
 	}
 }

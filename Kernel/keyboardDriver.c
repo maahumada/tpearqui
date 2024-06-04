@@ -21,6 +21,11 @@ static uint64_t keyMapRow = 0;
 uint64_t x = 0;
 uint64_t y = LINE_HEIGHT;
 
+static uint8_t stdInBuffer[1000];
+static uint64_t stdInBufferPosition;
+static char control = 0;
+static char capsLock = 0;
+
 void updateCoords(uint64_t* x, uint64_t* y) {
 	*x += LETTER_WIDTH;
 	if(*x >= getWidth()) {
@@ -48,13 +53,8 @@ void numToStr(uint64_t num, char* buffer){
 	*(buffer+digits) = 0;
 }
 
-static uint8_t stdInBuffer[1000];
-static uint64_t stdInBufferPosition;
-static char control = 0;
-static char capsLock = 0;
-
 void keyboard_handler(){
-  	uint8_t aux = readKeyPol();
+  uint8_t aux = readKeyPol();
 
 	if(aux & 0x80) { // tecla levantada, ignorar
 		aux -= 0x80;
@@ -115,7 +115,7 @@ void getLastPressed(uint8_t* character){
 uint64_t read(char* buffer, uint64_t count){
 	_sti();
 	stdInBufferPosition = 0;
-	do{}while(stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count);
+	while(stdInBuffer[stdInBufferPosition - 1] != '\n' && stdInBufferPosition < count){};
 	for(int i = 0; i < stdInBufferPosition - 1; i++){
 	 	buffer[i] = stdInBuffer[i];
 	}
