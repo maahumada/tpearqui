@@ -213,27 +213,27 @@ void printPiano(char key, uint32_t pressedColor, uint32_t unpressedColor) {
 		puts(" - PIANO -\n", 0xFFFFFF);
 		puts(" Press [E] to exit\n", 0xFFFFFF);
 		puts(" A: ", 0x00FFFF);
-		puts("DO / ", (key == 'a') ? pressedColor : unpressedColor);
+		puts("DO ", (key == 'a') ? pressedColor : unpressedColor);
 		
-		puts("S: ", 0x00FFFF);
-		puts("RE /", (key == 's') ? pressedColor : unpressedColor);
+		puts("/ S: ", 0x00FFFF);
+		puts("RE ", (key == 's') ? pressedColor : unpressedColor);
 
-		puts("S: ", 0x00FFFF);
-		puts("MI /", (key == 'd') ? pressedColor : unpressedColor);
+		puts("/ D: ", 0x00FFFF);
+		puts("MI ", (key == 'd') ? pressedColor : unpressedColor);
 
-		puts("F: ", 0x00FFFF);
-		puts("FA /", (key == 'f') ? pressedColor : unpressedColor);
+		puts("/ F: ", 0x00FFFF);
+		puts("FA / ", (key == 'f') ? pressedColor : unpressedColor);
 		
 		puts("G: ", 0x00FFFF);
-		puts("SOL /", (key == 'g') ? pressedColor : unpressedColor);
+		puts("SOL ", (key == 'g') ? pressedColor : unpressedColor);
 
-		puts("H: ", 0x00FFFF);
-		puts("LA /", (key == 'h') ? pressedColor : unpressedColor);
+		puts("/ H: ", 0x00FFFF);
+		puts("LA ", (key == 'h') ? pressedColor : unpressedColor);
 
-		puts("J: ", 0x00FFFF);
-		puts("SI /", (key == 'j') ? pressedColor : unpressedColor);
+		puts("/ J: ", 0x00FFFF);
+		puts("SI ", (key == 'j') ? pressedColor : unpressedColor);
 
-		puts("K: ", 0x00FFFF);
+		puts("/ K: ", 0x00FFFF);
 		puts("DO", (key == 'k') ? pressedColor : unpressedColor);
 
 		printScreen();
@@ -247,7 +247,7 @@ void piano() {
 	printPiano(0, unpressedColor, unpressedColor);
 
     while (1) {
-        getChar(&key); // Get the pressed key
+        getChar(&key); 
 		if(key >= 'A' && key <= 'Z') key -= 'A' - 'a';
 		
 		if(key == 'e') {
@@ -255,9 +255,9 @@ void piano() {
 			return;
 		}
 		
-        uint32_t frequency = getFrequency(key); // Get the frequency for the key
+        uint32_t frequency = getFrequency(key); 
         if (frequency > 0) {
-            makeBeep(frequency, 6); // Play the note for 500 ticks (adjust duration as needed)
+            makeBeep(frequency, 8); 
         }
 
 		printPiano(key, pressedColor, unpressedColor);
