@@ -84,3 +84,6 @@ inb:
 	mov edx, edi
 	in al, dx ;(in dest, port)
 	ret
+
+
+section .data
