@@ -268,22 +268,20 @@ void eliminator() {
     if(players == 2 && occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
 			makeBeep(310, 5);
       tie();
-      finished = 1;
+			break;
     }
     // Check Player 1 loses
     if(occupied[y1][x1] != 0) { 
 			makeBeep(310, 5);
       lostPlayer1();
-      finished = 1;
+			break;
     }
     // Check Player 2 los
     if(players == 2 && occupied[y2][x2] != 0) {
 			makeBeep(310, 5);
       lostPlayer2();
-      finished = 1;
-    }
-		if(finished)
 			break;
+    }
 
 		// Update player 1 position
   	occupied[y1][x1] = 1;
