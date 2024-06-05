@@ -114,7 +114,6 @@ void help() {
 void time() {
 	char timeBuffer[20] = { 0 };
 	getTimeString(timeBuffer);
-	puts(" ", 0x000000);
 	puts(timeBuffer, 0xFF77FF);
 	puts("\n", 0xFF77FF);
 	printScreen();
@@ -194,71 +193,61 @@ void list(){
 
 // Map keys to frequencies
 int getFrequency(char key) {
-    switch (key) {
-        case 'a': return C4;  // C4
-        case 's': return D4;  // D4
-        case 'd': return E4;  // E4
-        case 'f': return F4;  // F4
-        case 'g': return G4;  // G4
-        case 'h': return A4;  // A4
-        case 'j': return B4;  // B4
-        case 'k': return C5;  // C5
-        default: return 0;    // No sound
-    }
+  switch (key) {
+    case 'a': return C4;  // C4
+    case 's': return D4;  // D4
+    case 'd': return E4;  // E4
+    case 'f': return F4;  // F4
+    case 'g': return G4;  // G4
+    case 'h': return A4;  // A4
+    case 'j': return B4;  // B4
+    case 'k': return C5;  // C5
+    default: return 0;    // No sound
+  }
 }
 
 void printPiano(char key, uint32_t pressedColor, uint32_t unpressedColor) {
-		clear();
-
-		puts(" - PIANO -\n", 0xFFFFFF);
-		puts(" Press [E] to exit\n", 0xFFFFFF);
-		puts(" A: ", 0x00FFFF);
-		puts("DO ", (key == 'a') ? pressedColor : unpressedColor);
-		
-		puts("/ S: ", 0x00FFFF);
-		puts("RE ", (key == 's') ? pressedColor : unpressedColor);
-
-		puts("/ D: ", 0x00FFFF);
-		puts("MI ", (key == 'd') ? pressedColor : unpressedColor);
-
-		puts("/ F: ", 0x00FFFF);
-		puts("FA / ", (key == 'f') ? pressedColor : unpressedColor);
-		
-		puts("G: ", 0x00FFFF);
-		puts("SOL ", (key == 'g') ? pressedColor : unpressedColor);
-
-		puts("/ H: ", 0x00FFFF);
-		puts("LA ", (key == 'h') ? pressedColor : unpressedColor);
-
-		puts("/ J: ", 0x00FFFF);
-		puts("SI ", (key == 'j') ? pressedColor : unpressedColor);
-
-		puts("/ K: ", 0x00FFFF);
-		puts("DO", (key == 'k') ? pressedColor : unpressedColor);
-
-		printScreen();
+	clear();
+	puts(" - PIANO -\n", 0xFFFFFF);
+	puts(" Press [E] to exit\n", 0xFFFFFF);
+	puts(" A: ", 0x00FFFF);
+	puts("DO ", (key == 'a') ? pressedColor : unpressedColor);
+	puts("/ S: ", 0x00FFFF);
+	puts("RE ", (key == 's') ? pressedColor : unpressedColor);
+	puts("/ D: ", 0x00FFFF);
+	puts("MI ", (key == 'd') ? pressedColor : unpressedColor);
+	puts("/ F: ", 0x00FFFF);
+	puts("FA / ", (key == 'f') ? pressedColor : unpressedColor);
+	puts("G: ", 0x00FFFF);
+	puts("SOL ", (key == 'g') ? pressedColor : unpressedColor);
+	puts("/ H: ", 0x00FFFF);
+	puts("LA ", (key == 'h') ? pressedColor : unpressedColor);
+	puts("/ J: ", 0x00FFFF);
+	puts("SI ", (key == 'j') ? pressedColor : unpressedColor);
+	puts("/ K: ", 0x00FFFF);
+	puts("DO", (key == 'k') ? pressedColor : unpressedColor);
+	printScreen();
 }
 
 void piano() {
-    char key;
+  char key;
 	uint32_t pressedColor = 0xFFFFFF;
 	uint32_t unpressedColor = 0xFF0000;
 
 	printPiano(0, unpressedColor, unpressedColor);
-
     while (1) {
-        getChar(&key); 
-		if(key >= 'A' && key <= 'Z') key -= 'A' - 'a';
-		
-		if(key == 'e') {
-			clearScreen();
-			return;
-		}
-		
-        uint32_t frequency = getFrequency(key); 
-        if (frequency > 0) {
-            makeBeep(frequency, 8); 
-        }
+      getChar(&key); 
+			if(key >= 'A' && key <= 'Z') key -= 'A' - 'a';
+
+			if(key == 'e') {
+				clearScreen();
+				return;
+			}
+
+    	uint32_t frequency = getFrequency(key); 
+    	if (frequency > 0) {
+    	  makeBeep(frequency, 8); 
+    	}
 
 		printPiano(key, pressedColor, unpressedColor);
     }
@@ -275,7 +264,6 @@ void mandelbrot(){
 	int maxiter = 100;
 
   double x, y; /* Coordinates of the current point in the complex plane. */
-  double u, v; /* Coordinates of the iterated point. */
   int i,j; /* Pixel counters */
   int k; /* Iteration counter */
   for (j = 0; j < yres; j++) {

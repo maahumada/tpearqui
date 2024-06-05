@@ -262,7 +262,6 @@ void eliminator() {
 	score = 0;
   uint8_t lastKeyPlayer1 = 's', lastKeyPlayer2 = 'i';
   int x1 = WIDTH / 2, y1 = START_OFFSET, x2 = WIDTH / 2 + 1, y2 = HEIGHT - START_OFFSET;
-  uint8_t finished = 0;
   while(1){
     // Check Tie
     if(players == 2 && occupied[y1][x1] != 0 && occupied[y2][x2] != 0) { 
