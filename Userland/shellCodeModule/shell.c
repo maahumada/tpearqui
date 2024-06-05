@@ -261,12 +261,12 @@ void mandelbrot(){
 	double xmin = -1.5, ymin = -1.2;
 	double dx=(xmax-xmin)/xres;
   double dy=(ymax-ymin)/yres;
-	int maxiter = 100;
+	int maxiter = 70;
 
   double x, y; /* Coordinates of the current point in the complex plane. */
   int i,j; /* Pixel counters */
   int k; /* Iteration counter */
-  for (j = 0; j < yres; j++) {
+  for (j = yres / 2; j > 0; j--) {
     y = ymax - j * dy;
     for(i = 0; i < xres; i++) {
       double u = 0.0;
@@ -285,11 +285,13 @@ void mandelbrot(){
       if (k >= maxiter) {
         /* interior */
 				putSquare(0x000000, i, j, 1);
+				putSquare(0x000000, i, yres - j, 1);
       }
       else {
         /* exterior */
         uint32_t color = (k >> 16) | (k >> 8) | k; // Grayscale color based on iteration count
         putSquare(color * 12, i, j, 1);
+        putSquare(color * 12, i, yres - j, 1);
       };
     }
   }
