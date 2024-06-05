@@ -169,6 +169,7 @@ void exception06Tester(){
 }
 
 void image(){
+	clearScreen();
 	printImage(IMAGE_X, IMAGE_Y);
 	uint8_t c;
 	getChar(&c);
@@ -254,6 +255,7 @@ void piano() {
   }
 
 void mandelbrot(){
+	clearScreen();
 	uint64_t xres, yres;
 	getWidth(&xres);
 	getHeight(&yres);
