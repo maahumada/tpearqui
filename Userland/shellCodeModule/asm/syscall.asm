@@ -17,6 +17,8 @@ GLOBAL makeBeep
 GLOBAL printImage
 GLOBAL getWidth
 GLOBAL getHeight
+GLOBAL malloc
+GLOBAL free
 
 
 section .text
@@ -113,5 +115,15 @@ getWidth:
 
 getHeight:
     mov r9, 0x13
+    int 80h
+    ret
+
+malloc:
+    mov r9, 0x14
+    int 80h
+    ret
+
+free:
+    mov r9, 0x15
     int 80h
     ret

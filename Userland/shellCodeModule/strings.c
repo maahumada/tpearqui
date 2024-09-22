@@ -1,4 +1,5 @@
 #include <strings.h>
+#include <stdint.h>
 
 int strcmp(const char* a, const char* b){
 	int i = 0;
@@ -64,4 +65,12 @@ void numToStr(uint64_t number, char* str){
     
     // Reverse the string to get the correct order
     reverseStr(str, index);
+}
+
+void *test_memset(void *ptr, int value, uint64_t num) {
+    unsigned char *p = (unsigned char *)ptr;  // Cast the pointer to unsigned char
+    for (uint64_t i = 0; i < num; i++) {
+        p[i] = (unsigned char)value;  // Set each byte to the specified value
+    }
+    return ptr;  // Return the pointer to the memory block
 }

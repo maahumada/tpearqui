@@ -7,6 +7,9 @@
 #include <interrupts.h>
 #include <registers.h>
 #include <time.h>
+#include <mm.h>
+
+static void * const freeMemoryStartAddress = (void*)0x600000;
 
 void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint64_t p4, uint64_t id){
     switch(id){
@@ -66,6 +69,12 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             break;
         case 0x13:
             getHeightInPointer((uint64_t*)p0);
+            break;
+        case 0x14:
+            mm_malloc(p0);
+            break;
+        case 0x15:
+            mm_free((void*)p0);
             break;
         default:
             break;

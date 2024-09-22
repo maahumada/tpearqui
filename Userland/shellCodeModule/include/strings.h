@@ -13,4 +13,6 @@ void numToStr(uint64_t number, char* str);
 
 void reverseStr(char* str, int length);
 
+void *test_memset(void *ptr, int value, uint64_t num);
+
 #endif

@@ -4,11 +4,12 @@
 #include <strings.h>
 #include <eliminator.h> 
 #include <exceptions.h>
+#include <test.h>
 
 #define ENTER '\n'
 #define BACKSPACE '\b'
 
-#define COMMANDS_DIM 15
+#define COMMANDS_DIM 16
 #define HIDDEN_COMMANDS_DIM 2
 #define REGISTERS_DIM 17
 
@@ -17,8 +18,8 @@
 
 char username[40] = {'u','s','u','a','r','i','o',0};
 
-char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "config", "dump", "eliminator", "exception00", "exception06", "help", "image", "mandelbrot", "piano", "time", "zoom-in", "zoom-out"};
-char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "set username", "shows registers status", "starts eliminator", "triggers exception 0x00", "triggers exception 0x06", "shows commands", "inspirational art", "mandelbrot calculation", "playeble piano", "shows time", "increases text size", "decreases text size"};
+char* command_names[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clear", "config", "dump", "eliminator", "exception00", "exception06", "help", "image", "mandelbrot", "piano", "time", "zoom-in", "zoom-out", "test-mm"};
+char* command_descriptions[COMMANDS_DIM-HIDDEN_COMMANDS_DIM] = {"clears screen", "set username", "shows registers status", "starts eliminator", "triggers exception 0x00", "triggers exception 0x06", "shows commands", "inspirational art", "mandelbrot calculation", "playeble piano", "shows time", "increases text size", "decreases text size", "run memory manager test"};
 static char * notfound = "Command not found\n";
 
 #define BUFFER_SIZE 6144
@@ -41,7 +42,8 @@ static char *commands[COMMANDS_DIM] = {
 	"time", // 11
 	"zoom-in", // 12
 	"zoom-out", // 13
-	"" // 14
+	"test-mm", // 14
+	"" // 15
 };
 
 char* register_names[REGISTERS_DIM] = {"RIP: ", "RSP: ", "RBP: ", "RAX: ", "RBX: ", "RCX: ", "RDX: ", "RDI: ", "RSI: ", "R8:  ", "R9:  ", "R10: ", "R11: ", "R12: ", "R13: ", "R14: ", "R15: "};
@@ -347,6 +349,9 @@ void callCommand(int i) {
 			zoomOut();
      	 	break;
 		case 14:
+			testMemoryManager();
+				break;
+		case 15:
 			noCommand();
      	 	break;
 	}
