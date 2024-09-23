@@ -22,7 +22,7 @@ extern void makeBeep(uint32_t nFrequence, unsigned long time);
 extern void printImage(uint64_t x, uint64_t y);
 extern void getWidth(uint64_t* num);
 extern void getHeight(uint64_t* num);
-extern void* malloc(uint64_t size);
+extern void* malloc(uint64_t size, void** p);
 extern void free(void* p);
 
 #endif

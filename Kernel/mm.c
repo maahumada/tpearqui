@@ -16,10 +16,13 @@ void initializeMemoryManager(void* start){
     mm.freeBlocks[i] = start + i * BLOCK_SIZE;
 }
 
-void *mm_malloc(uint64_t size){
-	if(size > BLOCK_SIZE || mm.current >= BLOCK_COUNT - 1)
-		return NULL;
-  return mm.freeBlocks[(mm.current)++];
+void *mm_malloc(uint64_t size, void** p){
+	if(size > BLOCK_SIZE || mm.current >= BLOCK_COUNT - 1){
+		*p = NULL;
+  } else {
+    *p = mm.freeBlocks[(mm.current)++];
+  }
+  return *p;
 }    
 
 void mm_free(void *p){

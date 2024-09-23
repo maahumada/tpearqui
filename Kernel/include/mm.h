@@ -7,7 +7,7 @@
 
 void initializeMemoryManager(void* start);
 
-void *mm_malloc();
+void *mm_malloc(uint64_t size, void** p);
 
 void mm_free(void *p);
 

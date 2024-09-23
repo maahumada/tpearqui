@@ -71,7 +71,7 @@ void syscallDispatcher(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t p3, uint6
             getHeightInPointer((uint64_t*)p0);
             break;
         case 0x14:
-            mm_malloc(p0);
+            mm_malloc(p0, (void *)p1);
             break;
         case 0x15:
             mm_free((void*)p0);

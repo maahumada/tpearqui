@@ -1,9 +1,7 @@
 #include <syscall.h>
 #include <test_util.h>
-#include <stdlib.h>
 #include <strings.h>
 #include <stdint.h>
-#include <stdlib.h>
 
 #define MAX_BLOCKS 32
 #define A_ASCII 65 
@@ -17,7 +15,6 @@ typedef struct MM_rq {
 } mm_rq;
 
 
-
 char nibble_to_hex(uint8_t nibble) {
     if (nibble < 10)
         return '0' + nibble;
@@ -26,8 +23,8 @@ char nibble_to_hex(uint8_t nibble) {
 }
 
 // Function to convert a void pointer to a string (hexadecimal representation)
-void pointer_to_string(void* ptr, char* buffer, size_t buffer_size) {
-    if (buffer == NULL || buffer_size == 0) {
+void pointer_to_string(void* ptr, char* buffer, uint64_t buffer_size) {
+    if (buffer == 0 || buffer_size == 0) {
         return; // Do nothing if buffer is null or size is 0
     }
 
@@ -35,7 +32,7 @@ void pointer_to_string(void* ptr, char* buffer, size_t buffer_size) {
     uintptr_t address = (uintptr_t)ptr;
 
     // Number of hexadecimal digits needed (2 per byte)
-    size_t num_digits = sizeof(uintptr_t) * 2;
+    uint64_t num_digits = sizeof(uintptr_t) * 2;
 
     // Check if the buffer has enough space (including null terminator)
     if (buffer_size < num_digits + 1) {
@@ -71,7 +68,7 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
 
   int iterationCount = 0;
   for(int i = 0; i < LOADING_LINES; i++){
-    puts("-", TEST_OUTPUT_COLOR);
+    putChar('_', TEST_OUTPUT_COLOR);
   }
   printScreen();
   while (iterationCount++ < MAX_ITERATION) {
@@ -81,9 +78,9 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
       }
       for(int i = 0; i < LOADING_LINES; i++){
         if(iterationCount * LOADING_LINES / MAX_ITERATION > i){
-          putChar(0x80, 0xFF00FF);
+          putChar(0x80, TEST_OUTPUT_COLOR);
         } else {
-          puts("_", 0xFF00FF);
+          puts("_", TEST_OUTPUT_COLOR);
         }
       }
       printScreen();
@@ -94,11 +91,8 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
     // Request as many blocks as we can
     while (rq < MAX_BLOCKS && total < max_memory) {
       mm_rqs[rq].size = GetUniform(max_memory - total - 1) + 1;
-      mm_rqs[rq].address = malloc(mm_rqs[rq].size);
-      char buffer[100];
-      pointer_to_string(mm_rqs[rq].address, buffer, 100);
-      puts(buffer, 0xFF0000);
-      printScreen();
+      void** p;
+      malloc(mm_rqs[rq].size, &mm_rqs[rq].address);
       if (mm_rqs[rq].address) {
         total += mm_rqs[rq].size;
         rq++;
@@ -111,13 +105,6 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
       if (mm_rqs[i].address)
         test_memset(mm_rqs[i].address, i, mm_rqs[i].size);
 
-    for(int i = 0; i < rq; i++){
-      char buffer[100];
-      pointer_to_string(mm_rqs[i].address, buffer, 100);
-      puts(buffer, 0xFF0000);
-      printScreen();
-    }
-
     // Check
     for (i = 0; i < rq; i++)
       if (mm_rqs[i].address)
@@ -129,6 +116,5 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
       if (mm_rqs[i].address)
         free(mm_rqs[i].address);
   }
-
   return 0;
 }
