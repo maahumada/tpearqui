@@ -91,7 +91,6 @@ uint64_t test_mm(uint64_t argc, char *argv[]) {
     // Request as many blocks as we can
     while (rq < MAX_BLOCKS && total < max_memory) {
       mm_rqs[rq].size = GetUniform(max_memory - total - 1) + 1;
-      void** p;
       malloc(mm_rqs[rq].size, &mm_rqs[rq].address);
       if (mm_rqs[rq].address) {
         total += mm_rqs[rq].size;
