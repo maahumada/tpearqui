@@ -1,43 +1,85 @@
 #include <mm.h>
 #include <process.h>
+#include <scheduler.h>
+#include <videoDriver.h>
 
 #define MAX_PROCESSES 64
 #define STACK_SIZE 256
 
-Process processes[MAX_PROCESSES] = {0};
-int num_processes = 0;
-int current_process = -1;
+#define OUTPUT_COLOR 0xFFFFFF
 
-void create_process(uint8_t *name, uint8_t priority, void (*function)(void), uint8_t foreground) {
-    if (num_processes >= MAX_PROCESSES) {
-        //Hasta acá
+Process processes[MAX_PROCESSES] = {0};
+int numProcesses = 0;
+
+void createProcess(uint8_t *name, uint8_t priority, void (*function)(void), uint8_t foreground, uint8_t ppid) {
+    if (numProcesses >= MAX_PROCESSES) {
         return;
     }
 
-    Process *process = &processes[num_processes++];
+    Process *process = &processes[numProcesses++];
     snprintf(process->name, sizeof(process->name), "%s", name);
-    process->id = num_processes;
+    process->id = numProcesses;
+    process->ppid = ppid;
     process->priority = priority;
     process->function = function;
     process->stack = mm_malloc(STACK_SIZE, &process->stack);
     process->base_pointer = process->stack + STACK_SIZE;
     process->foreground = foreground;
+    process->state = Ready;
 
-    addSchedulerProcess(process);
+    for(int i = 0; i < priority; i++){
+        addSchedulerProcess(process);
+    }
 }
 
-void kill_process(uint8_t id) {
+void killProcess(uint8_t id) {
+    removeSchedulerProcess(&processes[id]);
     mm_free(processes[id].stack);
 }
 
-void modify_priority(uint8_t id, uint8_t priority) {
+void modifyPriority(uint8_t id, uint8_t priority) {
+    changeSchedulerProcessPriority(&processes[id], priority);
     processes[id].priority = priority;
 }
 
-void block_process(uint8_t id) {
-    // Implementar
+void blockProcess(uint8_t id) {
+    processes[id].state = Blocked;
 }
 
-void unblock_process(uint8_t id) {
-    // Implementar
+void readyProcess(uint8_t id) {
+    processes[id].state = Ready;
+}
+
+void runProcess(uint8_t id){
+    processes[id].state = Running;
+}
+
+void printProcess(Process* process) {
+    puts("Process:\n", OUTPUT_COLOR);
+    puts("Name: ", OUTPUT_COLOR);
+    puts(process->name, OUTPUT_COLOR);
+    // puts("\nID: ", OUTPUT_COLOR);
+    // puts(process->id, OUTPUT_COLOR);
+    // puts("\nPriority: ", OUTPUT_COLOR);
+    // puts(process->priority, OUTPUT_COLOR);
+    // puts("\nStack: ", OUTPUT_COLOR);
+    // puts(process->stack, OUTPUT_COLOR);
+    // puts("\nBase Pointer: ", OUTPUT_COLOR);
+    // puts(process->base_pointer, OUTPUT_COLOR);
+    // puts("\nForeground: ", OUTPUT_COLOR);
+    // puts(process->foreground, OUTPUT_COLOR);
+    // puts("\nState: ", OUTPUT_COLOR);
+    // switch(process->state){
+    //     case Ready: 
+    //         puts("Ready\n", OUTPUT_COLOR);
+    //         break;
+    //     case Blocked:
+    //         puts("Blocked\n", OUTPUT_COLOR);
+    //         break;
+    //     case Running:
+    //         puts("Running\n", OUTPUT_COLOR);
+    //         break;
+    // }
+    putChar('\n', OUTPUT_COLOR);
+    print();
 }
